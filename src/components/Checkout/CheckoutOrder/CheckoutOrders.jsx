@@ -6,7 +6,7 @@ import { Card } from './Card/Card';
 export const CheckoutOrders = () => {
   const { cart } = useContext(CartContext);
   const total = cart.reduce(
-    (total, item) => total + Number(item.price) * Number(item.quantity),
+    (total, item) => total + Number(item.calculable_price) * Number(item.quantity),
     0
   );
 
@@ -21,7 +21,7 @@ export const CheckoutOrders = () => {
       <div className='cart-bottom__total'>
         <div className='cart-bottom__total-goods'>
           Goods on
-          <span>${total.toFixed(2)}</span>
+          <span>{total.toFixed(2)}</span>
         </div>
         <div className='cart-bottom__total-promo'>
           Discount on promo code
@@ -36,9 +36,19 @@ export const CheckoutOrders = () => {
         </div>
         <div className='cart-bottom__total-num'>
           total:
-          <span>${(total + 30).toFixed(2)}</span>
+          <span>{(total + 30).toFixed(2)}</span>
         </div>
       </div>
+      <div className="mt-3">
+                    <form className="" method="POST">
+                        <input type="hidden" name="_token" value="0daflsxKrcU1jn1kKlmVubrBhtcSr08OOd09EqBO"/>                        <div className="input-group">
+                            <input type="text" id="coupon" className="form-control" name="code" placeholder="Have coupon code? Enter here" required=""/>
+                            <div className="input-group-append">
+                                <button type="submit" className="btn btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
     </>
   );
 };

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import {FiTrash2} from "react-icons/fi";
 
 export const Card = ({ cart, onChangeQuantity }) => {
   const {
@@ -42,6 +43,9 @@ export const Card = ({ cart, onChangeQuantity }) => {
           )}
         </div>
         <div className='cart-table__col'>
+        <span className='cart-table__price'>{base_price}</span>
+        </div>
+        <div className='cart-table__col'>
           <div className='cart-table__quantity'>
             <div className='counter-box'>
               <span
@@ -65,10 +69,13 @@ export const Card = ({ cart, onChangeQuantity }) => {
             </div>
           </div>
         </div>
-        <div className='cart-table__col'>
-          <span className='cart-table__total'>
+        <div className='cart-table__col text-center'>
+          <span className='cart-table__total' style={{fontSize:"1rem"}}>
             {currency_symbol}{(calculable_price * quantity).toFixed(2)}
           </span>
+        </div>
+        <div className='cart-table__col text-center'>
+         <button className='btnTrash'><FiTrash2/></button>
         </div>
       </div>
     </>

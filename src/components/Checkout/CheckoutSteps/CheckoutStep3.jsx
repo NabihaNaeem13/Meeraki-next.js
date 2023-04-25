@@ -4,7 +4,7 @@ export const CheckoutStep3 = () => {
       {/* <!-- BEING CHECKOUT STEP Three -->  */}
       <div className='checkout-purchase checkout-form'>
         <h4>
-          BeShop thanks
+          Meeraki thanks
           <br />
           you for your purchase!
         </h4>
@@ -31,7 +31,7 @@ export const CheckoutStep3 = () => {
           </li>
         </ul>
         <a href='#' className='checkout-purchase__link'>
-          print a document -
+          Take a snapshot of a document -
         </a>
       </div>
       {/* <!-- CHECKOUT STEP TWO EOF -->  */}

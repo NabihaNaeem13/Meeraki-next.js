@@ -1,423 +1,140 @@
-import React, { useState } from "react";
+import React from 'react'
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import {useFormik} from "formik";
+import axios from "axios";
+import { SigninSchema } from 'Schemas';
+import { useState } from 'react';
 import { HiUser } from "react-icons/hi";
-import { FaFacebookF } from "react-icons/fa";
-import { TfiGoogle } from "react-icons/tfi";
+import { SocialLogin } from 'components/shared/SocialLogin/SocialLogin';
+import router from 'next/router';
+import Registration from './Registration';
+import ForgotPass from './ForgotPass';
+import GuessLogin from './GuessLogin';
 
+const initialValues={
+  email:"",
+  password:"",
+  }
 
-
-const Model = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  
-  return (
-    <>
-      <button
-        type="button"
-        className="modelLoginbtn text-left"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        style={{border:"none",background:"transparent"}}
-      >
-        <HiUser className="mx-1 text-left" />
-      </button>
-
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-      <form>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2
-                className="mb-0 text-dark h4 fw-600 text-center"
-                id="exampleModalLabel"
-              >
-                Login to your account
-              </h2>
-            </div>
-            <div className="modal-body">
-              <div className="form-outline form-white mb-4">
-                <input
-                  type="email"
-                          id="email"
-                          placeholder="Email"
-                          className="login-input"
-                          name="email"
-                          autoComplete='off' 
-                        
-                />
-              </div>
-              <div className="form-outline form-white mb-4">
-                <input
-                 type="password"
-                          id="password"
-                          placeholder="Password"
-                          className="login-input"
-                          name="password"
-                          autoComplete='off' 
-                        
-                />
-              </div>
-              <div className="row mb-2">
-                <div className="col d-flex justify-content-left">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="checkbox"
-                    />
-                    <label
-                      className="form-check-label text-dark"
-                      htmlFor="checkbox"
-                    >
-                      Remember me{" "}
-                    </label>
-                  </div>
-                </div>
-
-                <div className="col offset-md-1">
-                  <p
-                    className="fs-13 forgot-p"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ForgotPassword"
-                    data-bs-dismiss="modal"
-                    style={{ color: "#1b1b28" }}
-                  >
-                    Forgot password?
-                  </p>
-                </div>
-              </div>
-
-              <button
-                 type="submit"
-                className="btn btn-primary btn-block mb-1 col-12"
-              >
-                Login
-              </button>
-              <div className="separator mb-1">
-                <p
-                  className="forgot-p"
-                  data-bs-toggle="modal"
-                  data-bs-target="#GuestModel"
-                  data-bs-dismiss="modal"
-                  style={{ color: "#1b1b28" }}
-                >
-                  {" "}
-                  <span className="fs-13" style={{backgroundColor:"white"}}>Login as a Guest</span>
-                </p>
-              </div>
-              <div className="separator mb-2">
-                <span className="bg-white px-3 opacity-60 text-dark fs-13" style={{backgroundColor:"white"}}>
-                  Or Login With
-                </span>
-              </div>
-              <ul className="list-inline social colored text-center mb-1">
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/facebook"
-                    className="facebook"
-                  >
-                    <FaFacebookF className="text-white mb-2 fs-13" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/google"
-                    className="google"
-                  >
-                    <TfiGoogle className="text-white mb-2 fs-13" />
-                  </a>
-                </li>
-              </ul>
-              <div className="text-center">
-                <p className="text-muted mb-0 fs-13" style={{ color: "#babac4" }}>
-                  Dont have an account?
-                </p>
-                <button
-                  type="button"
-                  className="modelLoginbtn text-center"
-                  data-bs-toggle="modal"
-                  data-bs-target="#Register"
-                  data-bs-dismiss="modal"
-                  style={{ color: "#1b1b28", fontSize: "0.83rem" }}
-                >
-                  Register Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        </form>
-      </div>
-      <div
-        className="modal fade"
-        id="ForgotPassword"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2
-                className="mb-0 text-dark h4 fw-600 text-left"
-                id="exampleModalLabel"
-              >
-                Forgot Password?
-              </h2>
-            </div>
-            <div className="modal-body">
-              <p className="mb-4 opacity-60 fs-13" style={{ color: "#898b92" }}>
-                Enter your email address to recover your password.
-              </p>
-              <div className="form-outline form-white mb-2">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="login-input"
-                  name="email"
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary btn-block mb-2 col-12"
-              >
-                Send Password Reset Link
-              </button>
-              <p
-                className="mb-0 opacity-60 fs-13 forgot-p"
-                style={{ color: "#898b92" }}
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                data-bs-dismiss="modal"
-              >
-                Back to Login
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="modal fade"
-        id="Register"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-      <form>
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2
-                className="mb-0 text-dark h4 fw-600 text-center"
-                id="exampleModalLabel"
-              >
-                Create account
-              </h2>
-            </div>
-            <div className="modal-body">
-              <div className="form-outline form-white mb-2">
-                <input
-                  type="text"
-                  id="fulname"
-                  placeholder="Full Name"
-                  className="login-input"
-                  name="name"
-                />
-              </div>
-              <div className="form-outline form-white mb-2">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="login-input"
-                  name="email"
-                />
-              </div>
-              <div className="form-outline form-white mb-2">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  className="login-input"
-                />
-              </div>
-              <div className="form-outline form-white mb-2">
-                <input
-                  type="password"
-                  id="confirmpassword"
-                  placeholder="Confirm Password"
-                  className="login-input"
-                />
-              </div>
-              <div className="form-outline form-white mb-2">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="form2Example31"
-                  />
-                  <label className="form-check-label fs-13" htmlFor="form2Example31">
-                    By signing up you agree to our terms and conditions.
-                  </label>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary btn-block mb-2 col-12"
-              >
-                Create Account
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary btn-block mb-1 col-12"
-                data-bs-toggle="modal"
-                data-bs-target="#GuestModel"
-                data-bs-dismiss="modal"
-              >
-                Login as a Guest
-              </button>
-              <div className="separator mb-2">
-                <span
-                  className="bg-white px-3 opacity-60  fs-13"
-                  style={{ color: "#babac4",backgroundColor:"white" }}
-                >
-                  Or Join With
-                </span>
-              </div>
-              <ul className="list-inline social colored text-center mb-1">
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/facebook"
-                    className="facebook"
-                  >
-                    <FaFacebookF className="text-white mb-1 fs-13" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/google"
-                    className="google"
-                  >
-                    <TfiGoogle className="text-white mb-1 fs-13" />
-                  </a>
-                </li>
-              </ul>
-              <div className="text-center">
-                <p
-                  className="text-muted mb-0 fs-13"
-                  style={{ color: "#babac4" }}
-                >
-                  Already have an account?
-                </p>
-                <button
-                  type="button"
-                  className="modelLoginbtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  data-bs-dismiss="modal"
-                  style={{ color: "#1b1b28", fontSize: "0.83rem" }}
-                >
-                  Log In
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        </form>
-      </div>
-      <div
-        className="modal fade"
-        id="GuestModel"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2
-                className="mb-0 text-dark h4 fw-600 text-center"
-                id="exampleModalLabel"
-              >
-                Guest Login
-              </h2>
-            </div>
-            <div className="modal-body">
-              <div className="form-outline form-white mb-2">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="form2Example31"
-                  />
-                  <label className="form-check-label" htmlFor="form2Example31">
-                    By signing up you agree to our terms and conditions.
-                  </label>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary btn-block mb-2 col-12"
-              >
-                Guest Login
-              </button>
-              <div className="separator mb-2">
-                <span
-                  className="bg-white px-3 opacity-60  fs-13"
-                  style={{ color: "#babac4",backgroundColor:"white" }}
-                >
-                  Or Join With
-                </span>
-              </div>
-              <ul className="list-inline social colored text-center mb-2">
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/facebook"
-                    className="facebook"
-                  >
-                    <FaFacebookF className="text-white mb-2 fs-13" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a
-                    href="http://meeraki.com/social-login/redirect/google"
-                    className="google"
-                  >
-                    <TfiGoogle className="text-white mb-2 fs-13" />
-                  </a>
-                </li>
-              </ul>
-              <div className="text-center">
-                <p
-                  className="text-muted mb-0 fs-13"
-                  style={{ color: "#babac4" }}
-                >
-                  Already have an account?
-                </p>
-                <button
-                  type="button"
-                  className="modelLoginbtn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  data-bs-dismiss="modal"
-                  style={{ color: "#1b1b28", fontSize: "0.83rem" }}
-                >
-                  Log In
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #fff',
+  boxShadow: 24,
+  borderRadius:'5px',
+  p: 4,
 };
+const Model = () => {
+  const [openLogin, setOpenLogin] = useState(false);
+  const handleOpen = () => setOpenLogin(true);
+  const handleClose = () => setOpenLogin(false);
+  const [error, setError] = useState();
+  const [success,setSuccess]=useState(null);
+
+
+  const onSubmit = async (values) => {
+    try{
+      const response = await axios.post("https://meeraki.com/api/v2/auth/login", values);
+      console.log("response", response.data);
+      console.log("token",response.data.access_token)
+      if (response.data.result === true) {
+          setSuccess(response.data.message);
+          localStorage.setItem('token',response.data.access_token);
+          setError(null);
+          router.push('/');
+          formik.resetForm();
+      }else{
+        setError(response.data.message);
+        setSuccess(null);
+      }
+    }catch (err) {
+      console.log(err);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validateOnBlur: true,
+    onSubmit,
+    validationSchema:SigninSchema
+  });
+  return (
+    <div>
+    <button className="modelLoginbtn" style={{border:"none",background:"transparent"}} onClick={handleOpen}><HiUser className="mx-1 text-left" /></button>
+    <Modal
+      open={openLogin}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      style={{zIndex:"2000"}}
+    >
+      <Box sx={style}>
+      <form onSubmit={formik.handleSubmit}>
+        <div className="modal-dialog">
+          <div className="modal-content" style={{border:"none"}}>
+          <h3 className='text-center'>log in with</h3>
+              {!error && <p className="text-center mb-2" style={{color:"green",fontSize:"1rem"}}>{success ? success : ""}</p>} 
+              <SocialLogin />
+            <div className='box-field m-1'>
+                <input
+                  type="email"
+                  id="email"
+                  className='form-control'
+                  placeholder='Enter your email'
+                  name="email"
+                          autoComplete='off' 
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                />
+                  {formik.errors.email && formik.touched.email ? (
+                      <p className="form-error">{formik.errors.email}</p>
+                    ) : null}
+              </div>
+              <div className='box-field m-1'>
+                <input
+                   type="password"
+                   id="password"
+                  className='form-control'
+                  placeholder='Enter your password'
+                  name="password"
+                          autoComplete='off' 
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                />
+                 {formik.errors.password && formik.touched.password ? (
+                      <p className="form-error">{formik.errors.password}</p>
+                    ) : null}
+              </div>
+              <label className='checkbox-box checkbox-box__sm m-1'>
+                <input type='checkbox' />
+                <span className='checkmark'></span>
+                Remember me
+              </label>
+              <button className='btn m-1' type='submit'  disabled={!formik.isValid}>
+                log in
+              </button>
+              <div className="mb-2 mt-3">
+                <GuessLogin/>
+              </div>
+              <div className='login-form__bottom'>
+                <span className='d-flex'>
+                  No account?&nbsp;<Registration/>
+                </span>
+               <ForgotPass/>
+              </div>   
+            </div>
+          </div>
+        </form>
+      </Box>
+    </Modal>
+  </div>
+  )
+}
 export default Model;

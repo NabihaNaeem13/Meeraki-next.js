@@ -8,7 +8,7 @@ const breadcrumbsData = [
     path: '/',
   },
   {
-    label: 'Check in',
+    label: 'Registration',
     path: '/registration',
   },
 ];

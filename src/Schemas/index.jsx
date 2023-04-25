@@ -22,3 +22,15 @@ export const SigninSchema=Yup.object({
 export const SubcriptionSchema=Yup.object({
     email:Yup.string().email("Please enter a valid email address").required("Email address is required!")
 })
+
+export const ForgotPasswordSchema=Yup.object({
+    email:Yup.string().email("Please enter a valid email address").required("Email address is required!")
+})
+
+export const ResetPassSchema=Yup.object({
+    email:Yup.string().email("Please enter a valid email address").required("Email address is required!"),
+    verification_code:Yup.string().required("Code is required"),
+    password:Yup.string().min(6).required("password is required!"),
+    confirm_pass:Yup.string().required().oneOf([Yup.ref('password'),null],"Password does not match!")
+})
+

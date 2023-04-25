@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 export const Card = ({ category }) => {
-  const { category_name, thumbnail_image,name} = category;
+  const { category_name, thumbnail_image,name,id} = category;
   return (
-    <Link href={`/categories`}>
+    <Link href={`/product/${id}`}>
       <a className='top-categories__item'>
         <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
         <div className='top-categories__item-hover'>

@@ -4,6 +4,10 @@ const countries = [
   { label: 'Country 1', value: '1' },
   { label: 'Country 2', value: '2' },
 ];
+const cities = [
+  { label: 'city 1', value: '1' },
+  { label: 'city 2', value: '2' },
+];
 export const CheckoutStep1 = ({ onNext }) => {
   return (
     <>
@@ -15,89 +19,55 @@ export const CheckoutStep1 = ({ onNext }) => {
             <div className='box-field'>
               <input
                 type='text'
-                className='form-control'
+                className='form-control box-field__input_checkout'
                 placeholder='Enter your name'
               />
             </div>
             <div className='box-field'>
               <input
-                type='text'
-                className='form-control'
-                placeholder='Enter your last name'
+                type='email'
+                className='form-control box-field__input_checkout'
+                placeholder='Enter your email'
               />
             </div>
-            <div className='box-field__row'>
+            <div className='box-field'>
               <div className='box-field'>
                 <input
                   type='tel'
-                  className='form-control'
+                  className='form-control box-field__input_checkout'
                   placeholder='Enter your phone'
                 />
               </div>
-              <div className='box-field'>
+            </div>
+            <div className='box-field'>
                 <input
-                  type='email'
-                  className='form-control'
-                  placeholder='Enter your mail'
+                  type='text'
+                  className='form-control box-field__input_checkout'
+                  placeholder='Enter the address'
                 />
               </div>
-            </div>
-          </div>
-          <div className='checkout-form__item'>
-            <h4>Delivery Info</h4>
-
-            <Dropdown
+              <Dropdown
               options={countries}
               className='react-dropdown'
               onChange={(option) => console.log(option.value)}
               placeholder='Select a country'
             />
-            <div className='box-field__row'>
+             <Dropdown
+              options={cities}
+              className='react-dropdown'
+              onChange={(option) => console.log(option.value)}
+              placeholder='Select a city'
+            />
               <div className='box-field'>
                 <input
                   type='text'
-                  className='form-control'
-                  placeholder='Enter the city'
+                  className='form-control box-field__input_checkout'
+                  placeholder='Enter the Postal code'
                 />
               </div>
-              <div className='box-field'>
-                <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Enter the address'
-                />
-              </div>
-            </div>
-            <div className='box-field__row'>
-              <div className='box-field'>
-                <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Delivery day'
-                />
-              </div>
-              <div className='box-field'>
-                <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Delivery time'
-                />
-              </div>
-            </div>
           </div>
           <div className='checkout-form__item'>
-            <h4>Note</h4>
-            <div className='box-field box-field__textarea'>
-              <textarea
-                className='form-control'
-                placeholder='Order note'
-              ></textarea>
-            </div>
-            <label className='checkbox-box checkbox-box__sm'>
-              <input type='checkbox' />
-              <span className='checkmark'></span>
-              Create an account
-            </label>
+            <h4>Select a payment option</h4>
           </div>
           <div className='checkout-buttons'>
             {/* <button className='btn btn-grey btn-icon'>

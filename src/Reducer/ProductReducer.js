@@ -26,7 +26,7 @@ const ProductReducer=(state,action)=>{
               return{
                 ...state,
                 isCurrencyLoading:false,
-                currency:action.payload,
+                currencies:action.payload,
               }
             case "SET_CURRENCY_ERROR":
                 return{
@@ -155,7 +155,85 @@ const ProductReducer=(state,action)=>{
                     isFormalEditLoading:true,
                     isError:true
                 };
-              
+              //basics product
+              case "SET_Basics_LOADING":
+                  return{
+                      ...state,
+                      isBasicsLoading:true
+                  };
+            case "SET_Basics_DATA":
+              return{
+                ...state,
+                isBasicsLoading:false,
+                basics:action.payload,
+              };
+              case "Basics_API_ERROR":
+                return{
+                    ...state,
+                    isBasicsLoading:true,
+                    isError:true
+                };
+                //FestivePret
+                case "SET_FestivePret_LOADING":
+                  return{
+                      ...state,
+                      isfestivePretLoading:true
+                  };
+            case "SET_FestivePret_DATA":
+              return{
+                ...state,
+                isfestivePretLoading:false,
+                festivePret:action.payload,
+              };
+              case "FestivePret_API_ERROR":
+                return{
+                    ...state,
+                    isfestivePretLoading:true,
+                    isError:true
+                };
+                //WinterWear
+                case "SET_WinterWear_LOADING":
+                  return{
+                      ...state,
+                      iswinterWearLoading:true
+                  };
+            case "SET_WinterWear_DATA":
+              return{
+                ...state,
+                iswinterWearLoading:false,
+                winterWear:action.payload,
+              };
+              case "WinterWear_API_ERROR":
+                return{
+                    ...state,
+                    iswinterWearLoading:true,
+                    isError:true
+                };
+                //ReadyToWear
+                case "SET_ReadyToWear_LOADING":
+                  return{
+                      ...state,
+                      isReadyToWearLoading:true
+                  };
+            case "SET_ReadyToWear_DATA":
+              return{
+                ...state,
+                isReadyToWearLoading:false,
+                readyToWear:action.payload,
+              };
+              case "SET_Unstitched_DATA":
+                return{
+                  ...state,
+                  isReadyToWearLoading:false,
+                  Unstitched:action.payload,
+                };
+              case "ReadyToWear_API_ERROR":
+                return{
+                    ...state,
+                    isReadyToWearLoading:true,
+                    isError:true
+                };
+                //featureProduct
                 case "SET_featureProduct_LOADING":
                   return{
                       ...state,
@@ -206,6 +284,25 @@ const ProductReducer=(state,action)=>{
                       return{
                           ...state,
                           isSingleLoading:true,
+                          isError:true
+                      };
+//sub_category
+                      case "SET_SubCategory_LOADING":
+                  return{
+                      ...state,
+                      isSubCategoryLoading:true
+                  };
+                  case "SET_SubCategory_Product":
+                    return{
+                      ...state,
+                      isSubCategoryLoading:false,
+                      SubCategory:action.payload,
+                     
+                    }
+                    case "SET_SubCategory_ERROR":
+                      return{
+                          ...state,
+                          isSubCategoryLoading:true,
                           isError:true
                       };
                   case "SET_Related_LOADING":

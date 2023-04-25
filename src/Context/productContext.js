@@ -32,7 +32,7 @@ const initialState={
     isWishlistLoading:false,
     TrackOrder:[],
     isTrackOrderLoading:false,
-    currency:[],
+    currencies:[],
     isCurrencyLoading:false,
     HomeImage4:[],
     isHomeImage4Loading:false,
@@ -43,7 +43,18 @@ const initialState={
     Blog:[],
     isBlogLoading:false,
     BlogDetail:{},
-    isBlogDetailLoading:false
+    isBlogDetailLoading:false,
+    basics:[],
+    isBasicsLoading:false,
+    festivePret:[],
+    isfestivePretLoading:false,
+    winterWear:[],
+    iswinterWearLoading:false,
+    readyToWear:[],
+    isReadyToWearLoading:false,
+    Unstitched:[],
+    SubCategory:[],
+    isSubCategoryLoading:false
   }
 
   const Insta_KEY="IGQVJWc01SaTZAOTzJ5WGhwV0RXVktmc0VqcTlER3g2eEN1MnI4NHpjdU9zWmJvU2gzTFR5NGpzYkJDanhCVDltNVFPU0Exc1Npb2pWSk5rWS14Tkg1NUhsd3lGaHR3UFN5eWV2R3c1cjBzLUdHSmp3QgZDZD";
@@ -60,6 +71,10 @@ const ImageTwoAPI="https://meeraki.com/api/v2/home-images";
 const APIINSTA=`https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username,timestamp&access_token=${Insta_KEY}`
 ;
 const BlogAPI="https://meeraki.com/api/v2/blogs";
+const APIBASICS="https://meeraki.com/api/v2/products/basics";
+const APIFESTIVEPRET="https://meeraki.com/api/v2/products/festive";
+const APIReadyToWear="https://meeraki.com/api/v2/categories";
+const APIWinterWear="https://meeraki.com/api/v2/products/winter-wear";
 
 const AppProvider = ({ children }) => {
     const [state,dispatch]=useReducer(reducer,initialState);
@@ -119,6 +134,55 @@ const AppProvider = ({ children }) => {
         dispatch({type:"FormalEdit_API_ERROR"})
       }
       };
+      const  getBasics = async (url) => {
+        dispatch({type:"SET_Basics_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const basics=await res.data.data;
+        dispatch({type:"SET_Basics_DATA",payload:basics})
+        
+      } catch (error) {
+        dispatch({type:"Basics_API_ERROR"})
+      }
+      };
+      //FESTIVE PRET
+      const  getFestivePret = async (url) => {
+        dispatch({type:"SET_FestivePret_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const festivePret=await res.data.data;
+        dispatch({type:"SET_FestivePret_DATA",payload:festivePret})
+        
+      } catch (error) {
+        dispatch({type:"FestivePret_API_ERROR"})
+      }
+      };
+      //WinterWear
+      const  getWinterWear = async (url) => {
+        dispatch({type:"SET_WinterWear_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const winterWear=await res.data.data;
+        dispatch({type:"SET_WinterWear_DATA",payload:winterWear})
+        
+      } catch (error) {
+        dispatch({type:"WinterWear_API_ERROR"})
+      }
+      };
+      //ReadyToWear
+      const  getReadyToWear = async (url) => {
+        dispatch({type:"SET_ReadyToWear_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const readyToWear=await res.data.data[0];
+        const Unstitched=await res.data.data[1];
+        dispatch({type:"SET_ReadyToWear_DATA",payload:readyToWear})
+        dispatch({type:"SET_Unstitched_DATA",payload:Unstitched})
+        
+      } catch (error) {
+        dispatch({type:"ReadyToWear_API_ERROR"})
+      }
+      };
       const  getFeatureProduct = async (url) => {
         dispatch({type:"SET_featureProduct_LOADING"})
       try {
@@ -130,7 +194,17 @@ const AppProvider = ({ children }) => {
         dispatch({type:"featureProduct_API_ERROR"})
       }
       };
-
+//sub-category
+const getSubCategory=async(url)=>{
+  dispatch({type:"SET_SubCategory_LOADING"})
+  try {
+    const res = await axios.get(url);
+    const SubCategory=await res.data.data;
+    dispatch({type:"SET_SubCategory_Product",payload:SubCategory})
+  } catch (error) {
+    dispatch({type:"SET_SubCategory_ERROR"})
+  }
+};
       const getSingleProduct=async(url)=>{
         dispatch({type:"SET_SINGLE_LOADING"})
         try {
@@ -141,6 +215,7 @@ const AppProvider = ({ children }) => {
           dispatch({type:"SET_SINGLE_ERROR"})
         }
       };
+
       const getBlogDetail=async(url)=>{
         dispatch({type:"SET_BlogDetail_loading"})
         try {
@@ -218,8 +293,8 @@ const AppProvider = ({ children }) => {
         dispatch({type:"SET_CURRENCY_LOADING"})
         try{
          const res=await axios.get(url);
-         const currency=await res.data.data;
-         dispatch({type:"SET_CURRENCY_API",payload:currency})
+         const currencies=await res.data.data;
+         dispatch({type:"SET_CURRENCY_API",payload:currencies})
         }catch(error){
           dispatch({type:"SET_CURRENCY_ERROR"})
         }
@@ -279,8 +354,12 @@ const AppProvider = ({ children }) => {
        getImageTwo(ImageTwoAPI);
        getInstagramPhoto(APIINSTA);
        getBlog(BlogAPI);
+       getBasics(APIBASICS);
+       getFestivePret(APIFESTIVEPRET);
+       getReadyToWear(APIReadyToWear);
+       getWinterWear(APIWinterWear);
       }, []);
-  return <AppContext.Provider value={{...state,getSingleProduct,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{...state,getSingleProduct,getSubCategory,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
 };
 
 //custom hooks

@@ -13,6 +13,7 @@ import { AiFillHeart, AiOutlineMail, AiOutlineShoppingCart, AiOutlineTwitter } f
 import { useWishlistContext } from 'Context/wishlistContext';
 import { SizeValue } from './SizeValue';
 import BasicModal from './BasicModal';
+import { useCurrenciesContext } from 'Context/CurrenciesContext';
 
 
 const API = "https://meeraki.com/api/v2/products/";
@@ -27,6 +28,8 @@ export const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [addedInCart, setAddedInCart] = useState(false);
   const [addInWishList, setAddInWishList] = useState(false);
+  const  {currency}=useCurrenciesContext();
+  const price = singleProduct.calculable_price * currency.conversionRate;
   const {id}=router.query;
 
   useEffect(() => {
@@ -166,7 +169,7 @@ export const ProductDetails = () => {
                                     </div>
                                     <div className="col-sm-9">
                                         <div className="product-price mt-0">
-                                            <strong id="chosen_price" className="h4 fw-600 text-primary">{singleProduct.calculable_price}</strong>  
+                                            <strong id="chosen_price" className="h4 fw-600 text-primary">{currency.symbol}{price}</strong>  
                                         </div>
                                     </div>
                                 </div>

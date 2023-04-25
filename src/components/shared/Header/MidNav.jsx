@@ -2,10 +2,14 @@ import React from 'react'
 import { BiChevronDown } from "react-icons/bi";
 import Model from '../Model/Model';
 import {currencies} from 'data/Currencies';
+import { useState } from 'react';
 
-const MidNav = () => {
-  const Currencies=[...currencies];
-  console.log(Currencies);
+const MidNav = ({ onCurrencyChange, currency }) => {
+  const [listopen, setListopen] = useState();
+  const handleOptionClick = (curr) => {
+    onCurrencyChange(curr);
+    setListopen(!listopen);
+  };
 
   return (
     <div className='header-top-midtop'>
@@ -23,7 +27,9 @@ const MidNav = () => {
             </a>
           </div>
           <div className="col-4 center-trick cntr-enc">
-            <div className="dropdown">
+            <div className='row'>
+             <div className='col-3 offset-7'>
+             <div className="dropdown">
               <button
                 className="dd_btn ma_toggle"
                 type="button"
@@ -33,7 +39,7 @@ const MidNav = () => {
               >
                 <img
                   className="ml-2 lazyloaded"
-                  src="/assets/img/PaK.webp"
+                  src={currency.icon}
                   alt=""
                   style={{ width: "1.5rem" }}
                 />
@@ -44,15 +50,15 @@ const MidNav = () => {
                 aria-labelledby="dropdownMenuButton1"
                 style={{padding:"0 0"}}
               >
-              {Currencies.map((curElement)=>{
-                const {name}=curElement;
+              {currencies.map((curElement)=>{
+                const {name,icon}=curElement;
                 return(
                   <li>
-                  <a className="dropdown-item text-reset py-2" href="#as">
+                  <a className="dropdown-item text-reset py-2" href="#as" onClick={() => handleOptionClick(curElement)} key={name}>
                    {name}
                     <img
                       className="ml-2 lazyloaded"
-                      src="/assets/img/PaK.webp"
+                      src={icon}
                       alt=""
                       style={{ width: "1.5rem", marginLeft: "8px" }}
                     />
@@ -61,8 +67,11 @@ const MidNav = () => {
                 )
               })}
               </ul>
-             <Model/>
             </div>
+             </div>
+             <div className='col-1'> <Model/></div>
+            </div>
+            
           </div>
         </div>
       </div>

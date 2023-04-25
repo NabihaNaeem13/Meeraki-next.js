@@ -13,16 +13,11 @@ export const LastImage = () => {
             ImageTwo.map((curElem)=>(
                 <div className="col-xl col-md-6">
           <div className="mb-3 mb-lg-0">
-            <Link
-              href={curElem.link_url}
-              className="d-block text-reset"
-            >
               <img
                 src={curElem.image_url}
                 alt="Meeraki promo"
                 className="img-fluid lazyloaded-card"
               />
-            </Link>
           </div>
         </div>
             ))

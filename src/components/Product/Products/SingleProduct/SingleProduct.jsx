@@ -1,4 +1,6 @@
+import { useCurrenciesContext } from 'Context/CurrenciesContext';
 import Link from 'next/link';
+import { SingleModel } from './SingleModel';
 
 export const SingleProduct = ({
   product,
@@ -7,8 +9,9 @@ export const SingleProduct = ({
   addedInCart,
   addInWishList
 }) => {
-  const { name, thumbnail_image,base_price,id,category_name } = product;
-  
+  const { name, thumbnail_image,base_price,id,category_name,current_price } = product;
+  const  {currency}=useCurrenciesContext();
+  const price = current_price * currency.conversionRate;
   return (
     <>
       {/* <!-- BEING SINGLE PRODUCT ITEM --> */}
@@ -29,13 +32,7 @@ export const SingleProduct = ({
                 className={`addList ${addInWishList ? 'added' : ''}`} onClick={() => onAddToWish(id)}>
                 <i className='icon-heart'></i>
               </button>
-              <button
-                disabled={addedInCart}
-                className={`addList ${addedInCart ? 'added' : ''}`}
-                onClick={() => onAddToCart(id)}
-              >
-                <i className='icon-cart'></i>
-              </button>
+              <SingleModel id={id}/>
             </div>
           </div>
         </div>
@@ -46,7 +43,7 @@ export const SingleProduct = ({
             </a>
           </Link>
           <span className='products-item__cost'>
-            {base_price}
+           {currency.symbol}{price}
           </span>
         </div>
       </div>

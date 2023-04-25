@@ -3,21 +3,23 @@ import { CheckoutOrders } from './CheckoutOrder/CheckoutOrders';
 import { CheckoutStep1 } from './CheckoutSteps/CheckoutStep1';
 import { CheckoutStep2 } from './CheckoutSteps/CheckoutStep2';
 import { CheckoutStep3 } from './CheckoutSteps/CheckoutStep3';
+import { AddToCart } from 'components/Cart/addToCart';
+import { Cart } from 'components/Cart/Cart';
 
 const detailBlocks = [
   {
     step: 'Step 1',
-    title: 'Order Details',
+    title: 'My Cart',
     icon: 'icon-step1',
   },
   {
     step: 'Step 2',
-    title: 'Payment method',
+    title: 'Information',
     icon: 'icon-step2',
   },
   {
     step: 'Step 3',
-    title: 'Finish!',
+    title: 'Confirmation!',
     icon: 'icon-step3',
   },
 ];
@@ -64,6 +66,7 @@ export const Checkout = () => {
         </div>
         {/* <!-- DETAIL MAIN BLOCK EOF --> */}
       </div>
+       <Cart/>
 
       {/* <!-- BEGIN CHECKOUT --> */}
       <div className={`checkout ${activeStep == 2 && 'checkout-step2'}`}>

@@ -9,7 +9,7 @@ import MidNav from './MidNav';
 import { useWishlistContext } from 'Context/wishlistContext';
 
 
-export const Header = () => {
+export const Header = ({ onCurrencyChange, currency }) => {
   const { cart } = useContext(CartContext);
   const {wishList}=useWishlistContext();
   const [promo, setPromo] = useState(true);
@@ -49,7 +49,7 @@ export const Header = () => {
         </div>
       </div>
     </div>
-    <MidNav/>
+    <MidNav onCurrencyChange={onCurrencyChange} currency={currency}/>
      </div>
         <div className={`header-content ${fixedNav ? 'fixed' : ''}`}>
           <div className='header-logo'>

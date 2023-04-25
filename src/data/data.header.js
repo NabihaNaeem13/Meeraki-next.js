@@ -5,15 +5,15 @@ export const header = {
 export const navItem = [
   {
     name: 'Sale',
-    path: '/',
+    path: '/category_clearance',
   },
   {
     name: 'New Arrivals',
-    path: '/categories',
+    path: '/category_newarrival',
   },
   {
     name: 'Basics',
-    path: '/shop',
+    path: 'category_basics',
   },
   {
     name: 'Formal Edit',
@@ -21,14 +21,14 @@ export const navItem = [
   },
   {
     name: 'Festive Pret',
-    path: '/blog',
+    path: '/category_Festivepret',
   },
   {
     name: 'Winter Wear',
-    path: '/contact',
+    path: '/category_winterwear',
   },
   {
     name: 'Ready to Wear',
-    path: '/contact',
+    path: '/category_ready_to_wear',
   },
 ];

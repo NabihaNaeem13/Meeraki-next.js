@@ -1,6 +1,7 @@
 import { MyWishlist } from 'components/MyWishlist/MyWishlist';
 import { MostViewed } from 'components/shared/MostViewed/MostViewed';
 import { Wishlist } from 'components/Wishlist/Wishlist';
+import { useAuthContext } from 'Context/AuthContext';
 import { PublicLayout } from 'layout/PublicLayout';
 
 const breadcrumbsData = [
@@ -14,9 +15,11 @@ const breadcrumbsData = [
   },
 ];
 const WishlistPage = () => {
+  const {authuser}=useAuthContext();
+  console.log("auth",authuser);
   return (
     <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Wishlist'>
-      <MyWishlist/>
+      <MyWishlist auth={authuser}/>
     </PublicLayout>
   );
 };

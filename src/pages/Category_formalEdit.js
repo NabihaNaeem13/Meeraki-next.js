@@ -14,7 +14,7 @@ const breadcrumbsData = [
 ];
 const Category_formalEdit = () => {
   return (
-    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Formal Edit'>
+    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Formal Edit' description="The Collection of a unique fusion of contemporary class and timeless fashion. Bringing you a range of subtly ornate designs paired with plethora of colors stand out contrasting against exclusively luxe fabrics.">
     <FormalEdit/>
   </PublicLayout>
   )

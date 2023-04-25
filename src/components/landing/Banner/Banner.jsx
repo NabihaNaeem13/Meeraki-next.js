@@ -54,7 +54,7 @@ export const Banner = () => {
       </div>
       <div className="col-md-4 offset-md-4 mt-4 pb-3">
         <h6
-          classNam="text-center mt-4 pb-4"
+          className="text-center mt-4 pb-4"
           style={{ fontSize: "15px", textAlign: "center", lineHeight: "1.6" }}
         >
           Meeraki is a fashion brand created especially for young and lively

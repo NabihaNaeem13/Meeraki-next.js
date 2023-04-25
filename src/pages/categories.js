@@ -1,3 +1,4 @@
+import { AllCategory } from 'components/AllCategory/AllCategory';
 import { Category } from 'components/Category/Category';
 import { PublicLayout } from 'layout/PublicLayout';
 
@@ -7,14 +8,14 @@ const breadcrumbsData = [
     path: '/',
   },
   {
-    label: 'New Arrivals',
+    label: 'All categories',
     path: '/categories',
   },
 ];
 const CategoriesPage = () => {
   return (
-    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='New Arrivals'>
-      <Category />
+    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='All categories'>
+      <AllCategory/>
     </PublicLayout>
   );
 };

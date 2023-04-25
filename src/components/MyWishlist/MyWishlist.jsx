@@ -7,7 +7,7 @@ import router from 'next/router';
 import { useWishlistContext } from 'Context/wishlistContext';
 
 
-export const MyWishlist = () => {
+export const MyWishlist = ({auth}) => {
     const {wishList,setWishList}=useWishlistContext();
 
     console.log("wishList 12 lines",wishList);
@@ -23,7 +23,7 @@ export const MyWishlist = () => {
             </div>
             <div className='text-center'>
              <FaUserCircle className='fs-1' style={{color:"#dee2e6"}}/>
-             <h1 className='h5'>Nabiha Naeem</h1>
+             <h1 className='h5'>{auth.name}</h1>
             </div>
             <ul className="list-group">
 <a className="list-group-item aiz-side-nav-link d-flex" onClick={() => router.push('/dashboard')}><SlHome className='aiz-side-nav-icon'/>

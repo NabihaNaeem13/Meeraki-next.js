@@ -1,7 +1,13 @@
 import Link from 'next/link';
 
 export const Card = ({ order }) => {
-  const { image, name, price, productNumber, id, quantity } = order;
+  const {   name,
+    thumbnail_image,
+    id,
+    product_sku,
+    quantity,
+    calculable_price,
+    currency_symbol} = order;
 
   return (
     <>
@@ -9,7 +15,7 @@ export const Card = ({ order }) => {
       <div className='checkout-order__item'>
         <Link href={`/product/${id}`}>
           <a className='checkout-order__item-img'>
-            <img src={image} className='js-img' alt='' />
+            <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
           </a>
         </Link>
         <div className='checkout-order__item-info'>
@@ -19,9 +25,9 @@ export const Card = ({ order }) => {
             </a>
           </Link>
           <span className='checkout-order__item-price'>
-            ${(price * quantity).toFixed(2)}
+            {currency_symbol}{(calculable_price * quantity).toFixed(2)}
           </span>
-          <span className='checkout-order__item-num'>SKU: {productNumber}</span>
+          <span className='checkout-order__item-num'>SKU: {product_sku}</span>
         </div>
       </div>
       {/* <!-- ORDER ITEM CARD EOF --> */}

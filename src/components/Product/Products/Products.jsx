@@ -10,7 +10,6 @@ export const Products = ({ products }) => {
     const newProduct = products?.find((pd) => pd.id === id);
     setCart([...cart, { ...newProduct, quantity: 1 }]);
   };
-  const [currency, setCurrency] = useState(Currencies[0]);
 
   return (
     <>
@@ -21,8 +20,6 @@ export const Products = ({ products }) => {
           product={product}
           onAddToWish={(id) => console.log(id)}
           onAddToCart={handleAddToCart}
-          currency={currency}
-          onCurrencyChange={setCurrency}
         />
       ))}
     </>
