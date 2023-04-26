@@ -205,7 +205,7 @@ const getSubCategory=async(url)=>{
     dispatch({type:"SET_SubCategory_ERROR"})
   }
 };
-      const getSingleProduct=async(url)=>{
+      {/*const getSingleProduct=async(url)=>{
         dispatch({type:"SET_SINGLE_LOADING"})
         try {
           const res = await axios.get(url);
@@ -214,7 +214,7 @@ const getSubCategory=async(url)=>{
         } catch (error) {
           dispatch({type:"SET_SINGLE_ERROR"})
         }
-      };
+      };*/}
 
       const getBlogDetail=async(url)=>{
         dispatch({type:"SET_BlogDetail_loading"})
@@ -359,7 +359,7 @@ const getSubCategory=async(url)=>{
        getReadyToWear(APIReadyToWear);
        getWinterWear(APIWinterWear);
       }, []);
-  return <AppContext.Provider value={{...state,getSingleProduct,getSubCategory,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{...state,getSubCategory,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
 };
 
 //custom hooks

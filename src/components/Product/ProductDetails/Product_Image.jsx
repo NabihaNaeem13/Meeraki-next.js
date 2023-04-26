@@ -1,11 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
 import ReactImageMagnify from 'react-image-magnify';
-import Slider from 'react-slick';
 
-export const ProductImage = ({photos=[{url:""}]}) => {
-    let photo=photos[0];
-    const [mainImage,setMainImage]=useState(photo);
+export const Product_Image = ({photos=[{url:""}]}) => {
+    const [mainImage,setMainImage]=useState(photos[0]);
     console.log(mainImage);
   return (
     <>

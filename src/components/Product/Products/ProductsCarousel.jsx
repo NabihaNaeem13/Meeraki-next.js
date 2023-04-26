@@ -9,6 +9,7 @@ import { SingleProduct } from './SingleProduct/SingleProduct';
 import { useWishlistContext } from 'Context/wishlistContext';
 
 export const ProductsCarousel = ({ products }) => {
+  console.log(products)
   const { cart, setCart } = useContext(CartContext);
   const {wishList,setWishList}=useWishlistContext();
   const handleAddToCart = (id) => {

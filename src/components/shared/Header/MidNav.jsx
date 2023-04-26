@@ -51,10 +51,10 @@ const MidNav = ({ onCurrencyChange, currency }) => {
                 style={{padding:"0 0"}}
               >
               {currencies.map((curElement)=>{
-                const {name,icon}=curElement;
+                const {name,icon,id}=curElement;
                 return(
                   <li>
-                  <a className="dropdown-item text-reset py-2" href="#as" onClick={() => handleOptionClick(curElement)} key={name}>
+                  <a className="dropdown-item text-reset py-2" href="#as" onClick={() => handleOptionClick(curElement)} key={name+icon+id}>
                    {name}
                     <img
                       className="ml-2 lazyloaded"

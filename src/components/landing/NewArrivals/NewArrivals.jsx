@@ -2,13 +2,11 @@ import { useProductContext } from 'Context/productContext';
 import { ProductsCarousel } from 'components/Product/Products/ProductsCarousel';
 import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
 
-export const NewArrivals = () => {
 
-  const {isnewArrivalLoading,NewArrivalProduct}=useProductContext();
-    
-  if(isnewArrivalLoading){
-      return<div>Loading.....</div>
-  }
+
+const NewArrivals = (data) => {
+  const {NewArrivalProduct}=useProductContext();
+  console.log(NewArrivalProduct);
 
   return (
     <>
@@ -26,3 +24,5 @@ export const NewArrivals = () => {
     </>
   );
 };
+
+export default NewArrivals;

@@ -18,13 +18,13 @@ export const Card = ({ cart, onChangeQuantity }) => {
     <>
       <div className='cart-table__row'>
         <div className='cart-table__col'>
-          <Link href={`/product/${id}`}>
+          <Link href={`/SingalProduct/${id}`}>
             <a className='cart-table__img'>
               <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
             </a>
           </Link>
           <div className='cart-table__info'>
-            <Link href={`/product/${id}`}>
+            <Link href={`/SingalProduct/${id}`}>
               <a className='title5'>{name}</a>
             </Link>
             {current_stock && (

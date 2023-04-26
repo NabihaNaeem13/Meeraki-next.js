@@ -22,7 +22,7 @@ export const SingleProduct = ({
         <div className='products-item__img'>
           <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
           <div className='products-item__hover'>
-            <Link href={`/product/${id}`}>
+            <Link href={`/SingalProduct/${id}`}>
               <a>
                 <i className='icon-search'></i>
               </a>
@@ -32,12 +32,15 @@ export const SingleProduct = ({
                 className={`addList ${addInWishList ? 'added' : ''}`} onClick={() => onAddToWish(id)}>
                 <i className='icon-heart'></i>
               </button>
-              <SingleModel id={id}/>
+              <button disabled={addedInCart}
+              className={`addList ${addedInCart ? 'added' : ''}`} onClick={() => onAddToCart(id)}
+              ><i className='icon-cart'></i></button>
+              {/*<SingleModel id={id}>*/}
             </div>
           </div>
         </div>
         <div className='products-item__info'>
-          <Link href={`/product/${id}`}>
+          <Link href={`/SingalProduct/${id}`}>
             <a>
               <span className='products-item__name'>{name}</span>
             </a>

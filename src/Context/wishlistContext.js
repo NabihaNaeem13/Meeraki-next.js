@@ -1,6 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
-import axios from "axios";
-import { useState } from "react";
+import { createContext, useContext, useEffect, useReducer,useState } from "react";
 const WishlistContext = createContext();
 
 const WishProvider = ({ children }) => {

@@ -20,7 +20,7 @@ const breadcrumbsData = [
 const SingleProductPage = () => {
   return (
     <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Shop'>
-      <ProductDetails />
+      <ProductDetails/>
       <MostViewed additionalClass='product-viewed' />
     </PublicLayout>
   );

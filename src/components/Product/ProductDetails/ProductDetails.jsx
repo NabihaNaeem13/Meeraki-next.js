@@ -1,18 +1,14 @@
-import productData from 'data/product/product';
 import { useContext, useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import socialData from 'data/social';
-import { Reviews } from '../Reviews/Reviews';
 import { ReviewFrom } from '../ReviewForm/ReviewFrom';
 import { useRouter } from 'next/router';
 import { CartContext } from 'pages/_app';
-import { FaFacebookF, FaLinkedinIn, FaRegHeart, FaWhatsapp } from 'react-icons/fa';
 import { useProductContext } from 'Context/productContext';
-import { ProductImage } from './ProductImage';
-import { AiFillHeart, AiOutlineMail, AiOutlineShoppingCart, AiOutlineTwitter } from 'react-icons/ai';
+import { Product_Image } from './Product_Image';
+import { AiFillHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 import { useWishlistContext } from 'Context/wishlistContext';
 import { SizeValue } from './SizeValue';
-import BasicModal from './BasicModal';
+import {BasicModal} from './BasicModal';
 import { useCurrenciesContext } from 'Context/CurrenciesContext';
 
 
@@ -23,7 +19,6 @@ export const ProductDetails = () => {
   const { cart, setCart } = useContext(CartContext);
   const {wishList,setWishList}=useWishlistContext();
   const {getSingleProduct,singleProduct}=useProductContext();
-  console.log("singleProduct",singleProduct);
   const socialLinks = [...socialData];
   const [product, setProduct] = useState(null);
   const [addedInCart, setAddedInCart] = useState(false);
@@ -34,7 +29,7 @@ export const ProductDetails = () => {
 
   useEffect(() => {
     getSingleProduct(`${API}${id}`);
-  }, [router.query.id]);
+  }, [id]);
 
 
   useEffect(() => {
@@ -73,7 +68,7 @@ export const ProductDetails = () => {
                 <div className='col-xl-6 col-lg-6 mb-4'>
                   <div className='CUSTOM-ZOOM'>
                     <div className='row'>
-                    <ProductImage photos={singleProduct.photos}/>
+                    <Product_Image photos={singleProduct.photos}/>
                     </div>
                   </div>
                 </div>
@@ -244,4 +239,3 @@ export const ProductDetails = () => {
     </>
   );
 };
-

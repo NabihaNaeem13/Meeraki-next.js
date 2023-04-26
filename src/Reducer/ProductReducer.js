@@ -268,25 +268,8 @@ const ProductReducer=(state,action)=>{
                   isCategoryLoading:true,
                   isError:true
               };
-                case "SET_SINGLE_LOADING":
-                  return{
-                      ...state,
-                      isSingleLoading:true
-                  };
-                  case "SET_SINGLE_Product":
-                    return{
-                      ...state,
-                      isSingleLoading:false,
-                      singleProduct:action.payload,
-                     
-                    }
-                    case "SET_SINGLE_ERROR":
-                      return{
-                          ...state,
-                          isSingleLoading:true,
-                          isError:true
-                      };
-//sub_category
+
+               //sub_category
                       case "SET_SubCategory_LOADING":
                   return{
                       ...state,

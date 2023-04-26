@@ -13,11 +13,11 @@ export const navItem = [
   },
   {
     name: 'Basics',
-    path: 'category_basics',
+    path: '/category_basics',
   },
   {
     name: 'Formal Edit',
-    path: 'Category_formalEdit',
+    path: '/Category_formalEdit',
   },
   {
     name: 'Festive Pret',

@@ -13,13 +13,13 @@ export const Card = ({ order }) => {
     <>
       {/* <!-- BEING ORDER ITEM CARD --> */}
       <div className='checkout-order__item'>
-        <Link href={`/product/${id}`}>
+        <Link href={`/SingalProduct/${id}`}>
           <a className='checkout-order__item-img'>
             <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
           </a>
         </Link>
         <div className='checkout-order__item-info'>
-          <Link href={`/product/${id}`}>
+          <Link href={`/SingalProduct/${id}`}>
             <a className='title6'>
               {name} <span>x{quantity}</span>
             </a>

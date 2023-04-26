@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { ProductImage } from 'components/Product/ProductDetails/ProductImage';
+import { ProductImage } from 'components/Product/ProductDetails/Product_Image';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { CartContext } from 'pages/_app';

@@ -4,7 +4,7 @@ import { BrandLogo } from 'components/shared/BrandLogo/BrandLogo';
 import { Discount } from 'components/landing/Discount/Discount';
 import { Info } from 'components/landing/Info/Info';
 import { LatestNews } from 'components/landing/LatestNews/LatestNews';
-import { NewArrivals } from 'components/landing/NewArrivals/NewArrivals';
+import NewArrivals  from 'components/landing/NewArrivals/NewArrivals';
 import { TopCategories } from 'components/landing/TopCategories/TopCategories';
 import { Trending } from 'components/landing/Trending/Trending';
 import { Subscribe } from 'components/shared/Subscribe/Subscribe';
@@ -14,12 +14,13 @@ import { FeatureProducts } from 'components/landing/FeaturedProducts/FeaturedPro
 import { FormalEdit } from 'components/landing/FormalEdit/FormalEdit';
 import {LastImage} from 'components/landing/LastImage2/LastImage';
 
+
 export default function Home() {
   return (
     <Layout>
       <Banner />
       {/* option <Trending />*/}
-      <NewArrivals />
+      <NewArrivals/>
       <EndOFSeason/>
       <TopCategories />
       <FeatureProducts/>
@@ -30,3 +31,14 @@ export default function Home() {
     </Layout>
   );
 }
+
+export const getServerSideProps=async()=>{
+  const res=await fetch('https://meeraki.com/api/v2/products/new-arrival');
+  const data=await res.json();
+   return{
+       props:{
+         data
+       }
+   }
+}
+
