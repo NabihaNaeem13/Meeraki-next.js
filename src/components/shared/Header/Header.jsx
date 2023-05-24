@@ -10,8 +10,8 @@ import { useWishlistContext } from 'Context/wishlistContext';
 
 
 export const Header = ({ onCurrencyChange, currency }) => {
-  const { cart } = useContext(CartContext);
-  const {wishList}=useWishlistContext();
+  const { mycart} = useContext(CartContext);
+  const {Wishlist}=useWishlistContext();
   const [promo, setPromo] = useState(true);
   const [fixedNav, setFixedNav] = useState(false);
   // For Fixed nav
@@ -111,18 +111,18 @@ export const Header = ({ onCurrencyChange, currency }) => {
                     <br/>
                     <i>Wishlist</i>
                     </i>
-                    <span>{wishList.length ?? ''}</span>
+                    <span>{Wishlist.length ?? '0'}</span>
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href='/cart'>
+                <Link href='/checkout'>
                   <a className='text-center'>
                     <i className='icon-cart'>
                     <br/>
                     <i>Cart</i>
                     </i>
-                    <span>{cart.length ?? '0'}</span>
+                    <span>{Object.keys(mycart).length ?? '0'}</span>
                   </a>
                 </Link>
               </li>

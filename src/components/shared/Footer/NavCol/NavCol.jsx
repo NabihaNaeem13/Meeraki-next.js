@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 export const NavCol = ({ nav }) => {
-  console.log(nav);
   return (
     <div className="col-lg-2 col-md-4">
                 <div className="text-left text-md-left mt-4">

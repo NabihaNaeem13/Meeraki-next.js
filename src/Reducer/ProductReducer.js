@@ -233,6 +233,30 @@ const ProductReducer=(state,action)=>{
                     isReadyToWearLoading:true,
                     isError:true
                 };
+                //all categories
+                case "SET_ALLCategories_LOADING":
+                  return{
+                      ...state,
+                      isAllCategoriesLoading:true
+                  };
+            case "SET_ALLCategories_DATA":
+              return{
+                ...state,
+                isAllCategoriesLoading:false,
+                allCategories:action.payload,
+              };
+              case "SET_Unstitched_DATA":
+                return{
+                  ...state,
+                  isAllCategoriesLoading:false,
+                  Unstitched:action.payload,
+                };
+              case "ALLCategories_API_ERROR":
+                return{
+                    ...state,
+                    isAllCategoriesLoading:true,
+                    isError:true
+                };
                 //featureProduct
                 case "SET_featureProduct_LOADING":
                   return{
@@ -305,6 +329,8 @@ const ProductReducer=(state,action)=>{
                           isRelatedLoading:true,
                           isError:true
                       };
+                    
+                 //Wishlist_Loading
                       case "SET_Wishlist_LOADING":
                         return{
                             ...state,

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import React from 'react'
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues={
     email:"",
@@ -12,19 +14,34 @@ const initialValues={
     }
 
 export const ResetPassword = () => {
-    const [error, setError] = useState();
-    const [success,setSuccess]=useState(null);
+
     const onSubmit = async (values) => {
       try{
         const response = await axios.post("https://meeraki.com/api/v2/auth/password/confirm_reset", values);
         console.log("response", response.data.message);
         if (response.data.result === true) {
-            setSuccess(response.data.message);
-            setError(null);
+            toast.success(response.data.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
             formik.resetForm();
         }else{
-          setError(response.data.message);
-          setSuccess(null);
+          toast.error(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
         }
       }catch (err) {
         console.log(err);
@@ -42,13 +59,22 @@ export const ResetPassword = () => {
     {/* <!-- BEGIN LOGIN --> */}
     <div className='login'>
       <div className='wrapper'>
+      <ToastContainer position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"/>
         <div
           className='login-form js-img'
           style={{ backgroundImage: `url('/assets/img/login-form__bg.png')` }}
         >
          <form className="mt-md-4" onSubmit={formik.handleSubmit}>
             <h3>Reset Password</h3>
-            {!error && <p className="text-center mb-2" style={{color:"green",fontSize:"1rem"}}>{success ? success : ""}</p>} 
             <p
                       className="mb-4 opacity-60 fs-13"
                       style={{ color: "#898b92" }}

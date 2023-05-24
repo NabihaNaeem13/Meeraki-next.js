@@ -6,7 +6,6 @@ import { useProductContext } from 'Context/productContext';
 
 export const LatestNews = () => {
   const {Blog}=useProductContext();
-  console.log("Blog",Blog);
   return (
     <>
       {/* <!-- BEGIN LATEST NEWS --> */}

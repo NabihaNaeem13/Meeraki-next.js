@@ -1,11 +1,23 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import {FaTimes,FaSignOutAlt,FaUserCircle,FaBattleNet,FaRegHeart,FaRegSmile, FaTruck} from "react-icons/fa";
 import {SlHome} from "react-icons/sl";
 import {AiOutlineFileText} from "react-icons/ai";
 import {HiOutlineUser,HiOutlinePlus} from "react-icons/hi";
 import router from 'next/router';
+import { useContext } from 'react';
+import { CartContext } from 'pages/_app';
+import { useAuthContext } from 'Context/AuthContext';
 
 export const SupportTicket = () => {
+  const {Logout}=useContext(CartContext);
+  const {authuser}=useAuthContext();
+
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      router.push('/login')
+    }
+  },[])
+
   return (
     <>
         <section className='py-5 container'>
@@ -13,12 +25,12 @@ export const SupportTicket = () => {
         <div className="col-3 remove-col">
          <div className='card'>
             <div className='d-flex'>
-                <h1 className='col-sm-10 h5 px-2'><FaSignOutAlt id='logout'/></h1>
+            <a className='col-sm-10 h5 px-2' onClick={Logout}><FaSignOutAlt id='logout1'/></a>
                 <div className='col-sm-2 text-center'><FaTimes/></div>
             </div>
             <div className='text-center'>
              <FaUserCircle className='fs-1' style={{color:"#dee2e6"}}/>
-             <h1 className='h5'>Nabiha Naeem</h1>
+             <h1 className='h5'>{authuser.name}</h1>
             </div>
             <ul className="list-group">
 <a className="list-group-item aiz-side-nav-link d-flex" onClick={() => router.push('/dashboard')}><SlHome className='aiz-side-nav-icon'/>

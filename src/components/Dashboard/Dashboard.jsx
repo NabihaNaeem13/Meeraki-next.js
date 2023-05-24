@@ -1,11 +1,46 @@
-import React from 'react';
+import React,{ useEffect, useState} from 'react';
 import {FaTimes,FaSignOutAlt,FaUserCircle,FaBattleNet,FaRegHeart, FaTruck} from "react-icons/fa";
 import {SlHome} from "react-icons/sl";
 import {AiOutlineFileText} from "react-icons/ai";
 import {HiOutlineUser} from "react-icons/hi";
 import router from 'next/router';
+import { useContext } from 'react';
+import { CartContext } from 'pages/_app';
+import { useAuthContext } from 'Context/AuthContext';
+import { useWishlistContext } from 'Context/wishlistContext';
+import axios from 'axios';
 
 export const Dashboard = () => {
+  const {Logout}=useContext(CartContext);
+  const {authuser}=useAuthContext();
+  const [count,setcount]=useState({});
+  console.log("count dash",count)
+
+  const DashboardCount=async()=>{
+    try{
+      const token =localStorage.getItem('token');
+      const user_id=localStorage.getItem('User');
+      const res=await axios.get(`https://meeraki.com/api/v2/profile/counters/${user_id}`, {
+        headers: {
+          Authorization: 'Bearer ' + token //the token is a variable which holds the token
+        }
+       });
+       setcount(res.data);
+     
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      router.push('/login')
+    }
+    DashboardCount(count)
+    return () => {
+      setcount({}); // This worked for me
+    };
+  },[])
   return (
     <>
         <section className='py-5 container'>
@@ -13,12 +48,12 @@ export const Dashboard = () => {
         <div className="col-3 remove-col">
          <div className='card'>
             <div className='d-flex'>
-                <h1 className='col-sm-10 h5 px-2'><FaSignOutAlt id='logout'/></h1>
+                <a className='col-sm-10 h5 px-2' onClick={Logout}><FaSignOutAlt id='logout1'/></a>
                 <div className='col-sm-2 text-center'><FaTimes/></div>
             </div>
             <div className='text-center'>
              <FaUserCircle className='fs-1' style={{color:"#dee2e6"}}/>
-             <h1 className='h5'>Nabiha Naeem</h1>
+             <h1 className='h5'>{authuser.name}</h1>
             </div>
             <ul className="list-group">
 <a className="list-group-item aiz-side-nav-link d-flex active" onClick={() => router.push('/dashboard')}><SlHome className='aiz-side-nav-icon'/>
@@ -43,7 +78,7 @@ Support Ticket</a>
             <div className="col-md-4">
             <div className='bg-grad-1 text-white rounded-lg mb-4 overflow-hidden'>
             <div className='px-3 pt-3'>
-                <div className='h3 fw-700'>0 Product</div>
+                <div className='h3 fw-700'>{count.cart_item_count} Product</div>
                 <div className="opacity-50">in your cart</div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -54,7 +89,7 @@ Support Ticket</a>
               <div className="col-md-4">
             <div className='bg-grad-2 text-white rounded-lg mb-4 overflow-hidden'>
             <div className='px-3 pt-3'>
-                <div className='h3 fw-700'>1 Product(s)</div>
+                <div className='h3 fw-700'>{count.wishlist_item_count} Product(s)</div>
                 <div class="opacity-50">in your wishlist</div>
             </div> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -65,7 +100,7 @@ Support Ticket</a>
               <div className="col-md-4">
             <div className='bg-grad-3 text-white rounded-lg mb-4 overflow-hidden'>
             <div className='px-3 pt-3'>
-                <div className='h3 fw-700'>0 Product(s)</div>
+                <div className='h3 fw-700'>{count.order_count} Product(s)</div>
                 <div className="opacity-50">you ordered</div>
             </div> 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

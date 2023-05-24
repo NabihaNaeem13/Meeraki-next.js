@@ -4,14 +4,13 @@ import ReactImageMagnify from 'react-image-magnify';
 
 export const Product_Image = ({photos=[{url:""}]}) => {
     const [mainImage,setMainImage]=useState(photos[0]);
-    console.log(mainImage);
   return (
     <>
      <div className='col-2'>
     {photos.map((curElement,index)=>{
     return(
-        <ul className='picoplist'>
-    <li key={index}><img src={`https://meeraki.com/public/${curElement}`} alt="" onClick={()=>setMainImage(curElement)}/></li>
+        <ul className='picoplist' key={index+curElement[0]}>
+    <li><img src={`https://meeraki.com/public/${curElement}`} alt="" onClick={()=>setMainImage(curElement)}/></li>
     </ul>
     )
     })}

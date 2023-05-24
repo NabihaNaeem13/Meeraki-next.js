@@ -11,6 +11,8 @@ import router from 'next/router';
 import Registration from './Registration';
 import ForgotPass from './ForgotPass';
 import GuessLogin from './GuessLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues={
   email:"",
@@ -33,24 +35,39 @@ const Model = () => {
   const [openLogin, setOpenLogin] = useState(false);
   const handleOpen = () => setOpenLogin(true);
   const handleClose = () => setOpenLogin(false);
-  const [error, setError] = useState();
-  const [success,setSuccess]=useState(null);
 
 
   const onSubmit = async (values) => {
     try{
       const response = await axios.post("https://meeraki.com/api/v2/auth/login", values);
       console.log("response", response.data);
-      console.log("token",response.data.access_token)
       if (response.data.result === true) {
-          setSuccess(response.data.message);
+          toast.success(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
           localStorage.setItem('token',response.data.access_token);
-          setError(null);
           router.push('/');
           formik.resetForm();
-      }else{
+      }
+      else{
         setError(response.data.message);
-        setSuccess(null);
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       }
     }catch (err) {
       console.log(err);
@@ -78,7 +95,6 @@ const Model = () => {
         <div className="modal-dialog">
           <div className="modal-content" style={{border:"none"}}>
           <h3 className='text-center'>log in with</h3>
-              {!error && <p className="text-center mb-2" style={{color:"green",fontSize:"1rem"}}>{success ? success : ""}</p>} 
               <SocialLogin />
             <div className='box-field m-1'>
                 <input

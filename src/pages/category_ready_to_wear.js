@@ -23,7 +23,7 @@ const category_ready_to_wear = () => {
 
   return (
     <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Ready To Wear'>
-   <ReadyToWear/>
+     <ReadyToWear/>
   </PublicLayout>
   )
 }

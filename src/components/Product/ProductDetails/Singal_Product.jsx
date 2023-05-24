@@ -3,51 +3,59 @@ import { Product_Image } from './Product_Image';
 import { useContext, useEffect, useState } from 'react';
 import socialData from 'data/social';
 import { ReviewFrom } from '../ReviewForm/ReviewFrom';
-import { useRouter } from 'next/router';
 import { CartContext } from 'pages/_app';
 import { AiFillHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 import { useWishlistContext } from 'Context/wishlistContext';
-import { SizeValue } from './SizeValue';
 import {BasicModal} from './BasicModal';
 import { useCurrenciesContext } from 'Context/CurrenciesContext';
+import { useAuthContext } from 'Context/AuthContext';
 
 export const Singal_Product = (data) => {
     const productDetail=data.data.data.data[0];
-    const { cart, setCart } = useContext(CartContext);
-    const {wishList,setWishList}=useWishlistContext();
+    console.log("1",productDetail.size_variant_price[0])
+    const {addtocart,buyNow,mycart,user} = useContext(CartContext);
+    const {AddToWishlist,myWishlist}=useWishlistContext();
+    const {authuser}=useAuthContext();
     const socialLinks = [...socialData];
     const [addedInCart, setAddedInCart] = useState(false);
   const [addInWishList, setAddInWishList] = useState(false);
   const  {currency}=useCurrenciesContext();
-  const price = productDetail.calculable_price * currency.conversionRate;
+  const ad=Object.keys(mycart);
+  const pid=parseInt(ad);
+
 
   useEffect(() => {
     if (productDetail) {
-      setAddedInCart(Boolean(cart?.find((pd) => pd.id === productDetail.id)));
+      setAddedInCart(Boolean(pid===productDetail.id));
     }
-  }, [cart]);
+  }, []);
 
   useEffect(() => {
     if (productDetail) {
-      setAddInWishList(Boolean(wishList?.find((pd) => pd.id === productDetail.id)));
+      setAddInWishList(Boolean(myWishlist.product_id === productDetail.id));
     }
-  }, [wishList]);
+  }, [myWishlist.product_id]);
 
   const [quantity, setQuantity] = useState(1);
-  const [tab, setTab] = useState(2);
-
+   const total=productDetail.current_price*quantity;
+   const variantPrice=productDetail.size_variant_price[0]*quantity;
+  const [productSize,setProductSize]=useState(productDetail.choice_options[0].values[0]);
  
 
-  const handleAddToCart = () => {
-    const newProduct = { ...productDetail, quantity: quantity };
-    setCart([...cart, newProduct]);
-  };
+  const updatePrice=()=>{
+    if(productSize==="Unstitched"){
+      return (total * currency.conversionRate).toFixed(2)
+    }
+    else if(productSize==="Small" || productSize==="Medium" || productSize==="Large" || productSize==="X-Large"){
+      return (variantPrice * currency.conversionRate).toFixed(2)
+    }
+    else{
+       return (total * currency.conversionRate).toFixed(2)
+    }
+  }
 
-  const handleAddToWish=()=>{
-    const newProduct = {...productDetail};
-    setWishList([...wishList, { ...newProduct}]);
-   }
-  console.log("allnewArrival 5 line",productDetail);
+
+
   return (
     <div className="container mt-3">
     <div className='bg-white'>
@@ -71,8 +79,7 @@ export const Singal_Product = (data) => {
                         <div className="col-6 text-right">
                            {productDetail.current_stock > 0 ? <span className="badge badge-md badge-inline badge-pill badge-success">In Stock</span>:<span className="badge badge-md badge-inline badge-pill badge-danger">Out of Stock</span>}
                           </div>
-                          <p className='mt-2'><div
-dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
+                          <div className='mt-2' dangerouslySetInnerHTML={{__html: productDetail.description}}></div>
    <div className='contacts-info__social mt-2'>
         <span>Share here:</span>
         <ul>
@@ -85,21 +92,8 @@ dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
           ))}
         </ul>
       </div>
-                          <div className="row align-items-center">
-                            <div className="row no-gutters mt-3 mb-2">
-                            <div className="col-sm-2">
-                                <div className="opacity-50 my-2">Price:</div>
-                            </div>
-                            <div className="col-sm-10">
-                            <del className="fs-20 opacity-60"> 
-                                    {productDetail.stroked_price}
-                                    </del>   
-                            </div>
-                        </div></div>
+                         
                         <div className="row no-gutters my-2">
-                            <div className="col-sm-4">
-                                <div className="opacity-50">Discount Price:</div>
-                            </div>
                             <div className="col-sm-8">
                                 <div className="">
                                     <strong className="h2 fw-600 text-primary">
@@ -110,9 +104,41 @@ dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
                         </div>       
                     </div>
                     <form id="option-choice-form">
-                        <input type="hidden" name="_token" value="YEA12NWGmycptTSr3iDp5tQU1Oi0ojHxN5sLOAAQ"/>
-                        <input type="hidden" name="id" value="16"/>
-                        <SizeValue sizeBox={productDetail.choice_options}/>
+                         {Object.keys(productDetail.choice_options).map((item)=>{
+                          return(
+                            <div className='product-info__color' key={productDetail.choice_options[item].title}>
+                             <span>Size:</span>
+                             <div className='col-sm-12'>
+                            <div className='d-md-flex align-items-center py-md-2 mb-md-2 smalls'>
+                           {productDetail.choice_options[item].values[0] && <div className='radio-input-container'>
+                    <input type="radio" name="ratio" className="input-radio" value={productDetail.choice_options[item].values[0]} onChange={(e)=>setProductSize(e.target.value)} defaultChecked/>
+                    <div className='ratio-title'>
+                      <label htmlFor="walk-radio">{productDetail.choice_options[item].values[0]}</label>
+                    </div></div> }
+                    {productDetail.choice_options[item].values[1] && <div className='radio-input-container'>
+                    <input type="radio" name="ratio" className="input-radio" value={productDetail.choice_options[item].values[1]} onChange={(e)=>setProductSize(e.target.value)}/>
+                    <div className='ratio-title'>
+                      <label htmlFor="walk-radio">{productDetail.choice_options[item].values[1]}</label>
+                    </div></div> }
+                    {productDetail.choice_options[item].values[2] &&   <div className='radio-input-container'>
+                    <input type="radio" name="ratio" className="input-radio" value={productDetail.choice_options[item].values[2]} onChange={(e)=>setProductSize(e.target.value)}/>
+                    <div className='ratio-title'>
+                      <label htmlFor="walk-radio">{productDetail.choice_options[item].values[2]}</label>
+                    </div></div> }
+                    {productDetail.choice_options[item].values[3] &&   <div className='radio-input-container'>
+                    <input type="radio" name="ratio" className="input-radio" value={productDetail.choice_options[item].values[3]} onChange={(e)=>setProductSize(e.target.value)}/>
+                    <div className='ratio-title'>
+                      <label htmlFor="walk-radio">{productDetail.choice_options[item].values[3]}</label>
+                    </div></div> }
+                  {productDetail.choice_options[item].values[4] && <div className='radio-input-container'>
+                    <input type="radio" name="ratio" className="input-radio" value={productDetail.choice_options[item].values[4]} onChange={(e)=>setProductSize(e.target.value)}/>
+                    <div className='ratio-title'>
+                      <label htmlFor="walk-radio">{productDetail.choice_options[item].values[4]}</label>
+                    </div></div> }
+                             </div></div>
+                            </div>
+                          )
+                         })}
                         <BasicModal/>
                         <div className="row no-gutters">
                             <div className="col-sm-2">
@@ -133,9 +159,7 @@ dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
             <input
               type='text'
               className='counter-input'
-              disabled
-              value={quantity}
-            />
+              value={quantity}/>
             <span
               onClick={() => setQuantity(quantity + 1)}
               className='counter-link counter-link__next'
@@ -151,7 +175,7 @@ dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
                             </div>
                             <div className="col-sm-9">
                                 <div className="product-price mt-0">
-                                    <strong id="chosen_price" className="h4 fw-600 text-primary">{currency.symbol}{price}</strong>  
+                                    <strong id="chosen_price" className="h4 fw-600 text-primary">{currency.symbol}{updatePrice()}</strong>  
                                 </div>
                             </div>
                         </div>
@@ -160,15 +184,15 @@ dangerouslySetInnerHTML={{__html: productDetail.description}}/></p>
                         <div className='product-buttons mt-0'>
         <button
           disabled={addedInCart}
-          onClick={() => handleAddToCart()}
+          onClick={() =>{addtocart(productDetail.id,productDetail.name,productSize,productDetail.current_price,quantity,productDetail.thumbnail_image,productDetail.product_sku,productDetail.current_stock,productDetail.stroked_price,productDetail.base_price)}}
           className='btn-cartProductDetail'
         >
           <i className='icon-cart'></i> cart
         </button>
-        <button className='btn btn-icon'>
+        <button className='btn btn-icon' onClick={()=>{buyNow(productDetail.id,productDetail.name,productSize,productDetail.current_price,quantity,productDetail.thumbnail_image,productDetail.product_sku,productDetail.current_stock,productDetail.stroked_price,productDetail.base_price)}}>
         <AiOutlineShoppingCart className='mx-1' style={{fontSize:"16px",fontWeight:"400"}}/> Buy Now
         </button>
-        <button className='btn-grey'  disabled={addInWishList} onClick={() => handleAddToWish()}  style={{backgroundColor:"#ffff",color:"#999999",border:"none"}}>
+        <button className='btn-grey'  disabled={addInWishList} onClick={() => AddToWishlist(productDetail.id,authuser.id,user.value)}  style={{backgroundColor:"#ffff",color:"#999999",border:"none"}}>
           <AiFillHeart className='btn-heart'/>
         </button>
       </div>

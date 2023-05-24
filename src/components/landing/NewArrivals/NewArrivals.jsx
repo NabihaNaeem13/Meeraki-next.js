@@ -6,8 +6,6 @@ import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
 
 const NewArrivals = (data) => {
   const {NewArrivalProduct}=useProductContext();
-  console.log(NewArrivalProduct);
-
   return (
     <>
       {/* <!-- BEGIN NEW ARRIVALS --> */}

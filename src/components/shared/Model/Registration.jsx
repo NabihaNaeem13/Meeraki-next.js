@@ -9,6 +9,8 @@ import { SocialLogin } from 'components/shared/SocialLogin/SocialLogin';
 import router from 'next/router';
 import Model from './Model';
 import GuessLogin from './GuessLogin';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues={
   email:"",
@@ -40,11 +42,19 @@ const Registration = () => {
     try{
      const response = await axios.post("https://meeraki.com/api/v2/auth/signup",data);
      console.log("signup response", response);
-     //const result = await response.json();
-     //console.log(result)
      console.log("response", response.data.message);
      if (response.data.result === "Success") {
        setSuccess(response.data.message);
+       toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
        localStorage.setItem("token", response.data.access_token);  
        setError(null);
        router.push('/');
@@ -53,6 +63,16 @@ const Registration = () => {
        //alert('we  have errror')
        setError(response.data.message)
        setSuccess(null);
+       toast.error(response.data.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
      }
     }catch (err) {
      console.log(err);

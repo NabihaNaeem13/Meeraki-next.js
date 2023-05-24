@@ -5,6 +5,7 @@ import { useCurrenciesContext } from 'Context/CurrenciesContext';
 
 export const Layout = ({ children }) => {
   const {currency, setCurrency}=useCurrenciesContext();
+
   return (
     <>
       <header className='header'>

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
 import reducer from "../Reducer/ProductReducer";
-
+import { useRouter } from "next/router";
 const AppContext = createContext();
 
 const initialState={
@@ -54,7 +54,9 @@ const initialState={
     isReadyToWearLoading:false,
     Unstitched:[],
     SubCategory:[],
-    isSubCategoryLoading:false
+    isSubCategoryLoading:false,
+    allCategories:[],
+    isAllCategoriesLoading:false
   }
 
   const Insta_KEY="IGQVJWc01SaTZAOTzJ5WGhwV0RXVktmc0VqcTlER3g2eEN1MnI4NHpjdU9zWmJvU2gzTFR5NGpzYkJDanhCVDltNVFPU0Exc1Npb2pWSk5rWS14Tkg1NUhsd3lGaHR3UFN5eWV2R3c1cjBzLUdHSmp3QgZDZD";
@@ -73,12 +75,13 @@ const APIINSTA=`https://graph.instagram.com/me/media?fields=id,caption,media_typ
 const BlogAPI="https://meeraki.com/api/v2/blogs";
 const APIBASICS="https://meeraki.com/api/v2/products/basics";
 const APIFESTIVEPRET="https://meeraki.com/api/v2/products/festive";
-const APIReadyToWear="https://meeraki.com/api/v2/categories";
+const APIReadyToWear="https://meeraki.com/api/v2/products/ready-to-wear";
 const APIWinterWear="https://meeraki.com/api/v2/products/winter-wear";
+const APIALLCAT="https://meeraki.com/api/v2/categories";
 
 const AppProvider = ({ children }) => {
     const [state,dispatch]=useReducer(reducer,initialState);
-
+   const router=useRouter();
     const  getProduct = async (url) => {
         dispatch({type:"SET_LOADING"})
       try {
@@ -105,7 +108,7 @@ const AppProvider = ({ children }) => {
         dispatch({type:"SET_IMAGE_LOADING"})
       try {
         const res = await axios.get(url);
-        const  HomeImage4=await res.data.images;
+        const  HomeImage4=await res.data.data;
         dispatch({type:"SET_IMAGEAPI_DATA",payload:HomeImage4})
         
       } catch (error) {
@@ -174,15 +177,27 @@ const AppProvider = ({ children }) => {
         dispatch({type:"SET_ReadyToWear_LOADING"})
       try {
         const res = await axios.get(url);
-        const readyToWear=await res.data.data[0];
-        const Unstitched=await res.data.data[1];
+        const readyToWear=await res.data.data;
         dispatch({type:"SET_ReadyToWear_DATA",payload:readyToWear})
-        dispatch({type:"SET_Unstitched_DATA",payload:Unstitched})
-        
       } catch (error) {
         dispatch({type:"ReadyToWear_API_ERROR"})
       }
       };
+      //All categories
+       const  getALLCategories = async (url) => {
+        dispatch({type:"SET_ALLCategories_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const allCategories=await res.data.data[0];
+        const Unstitched=await res.data.data[1];
+        dispatch({type:"SET_ALLCategories_DATA",payload: allCategories})
+        dispatch({type:"SET_Unstitched_DATA",payload:Unstitched})
+        
+      } catch (error) {
+        dispatch({type:"ALLCategories_API_ERROR"})
+      }
+      };
+      //FeatureProduct
       const  getFeatureProduct = async (url) => {
         dispatch({type:"SET_featureProduct_LOADING"})
       try {
@@ -215,7 +230,7 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_SINGLE_ERROR"})
         }
       };*/}
-
+//BlogDetail
       const getBlogDetail=async(url)=>{
         dispatch({type:"SET_BlogDetail_loading"})
         try {
@@ -226,6 +241,9 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_BlogDetail_ERROR"})
         }
       }
+
+     
+      //RelateProduct
       const getRelateProduct=async(url)=>{
         dispatch({type:"SET_Related_LOADING"})
         try {
@@ -237,6 +255,7 @@ const getSubCategory=async(url)=>{
         }
       }
 
+      //TopProducts
       const getTopProducts=async(url)=>{
         dispatch({type:"SET_Top_LOADING"})
         try {
@@ -247,6 +266,8 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_Top_ERROR"})
         }
       }
+
+      //WishList
       const getWishList=async(url)=>{
         dispatch({type:"SET_Wishlist_LOADING"})
         try {
@@ -257,17 +278,19 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_Wishlist_ERROR"})
         }
       }
+      //Category
       const getCategory=async(url)=>{
         dispatch({type:"SET_Category_LOADING"})
        try{
         const res = await axios.get(url);
         const category=await res.data.data;
-        console.log("109 line filterCotext",category);
         dispatch({type:"SET_Category_Product",payload:category})
        }catch(error){
         dispatch({type:"SET_Category_ERROR"})
        }
       }
+
+      //Banners
       const getBanners=async(url)=>{
         dispatch({type:"SET_Banners_LOADING"})
        try{
@@ -278,17 +301,20 @@ const getSubCategory=async(url)=>{
         dispatch({type:"SET_Banners_ERROR"})
        }
       }
+
+      //ImageTwo
       const getImageTwo=async(url)=>{
         dispatch({type:"SET_ImageTwo_LOADING"})
        try{
         const res = await axios.get(url);
-        const ImageTwo=await res.data.banners;
+        const ImageTwo=await res.data.data;
         dispatch({type:"SET_ImageTwo_part",payload:ImageTwo})
        }catch(error){
         dispatch({type:"SET_ImageTwo_ERROR"})
        }
       }
 
+      //Currency
       const getCurrency=async(url)=>{
         dispatch({type:"SET_CURRENCY_LOADING"})
         try{
@@ -299,6 +325,7 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_CURRENCY_ERROR"})
         }
       }
+      //CategoryProduct
       const getCategoryProduct=async(url)=>{
         dispatch({type:"SET_categoryProduct_LOADING"})
         try {
@@ -310,6 +337,7 @@ const getSubCategory=async(url)=>{
         }
       }
 
+      //Navbar
       const getNavbar=async(url)=>{
         dispatch({type:"SET_NAVBAR_LOADING"})
         try{
@@ -321,6 +349,7 @@ const getSubCategory=async(url)=>{
         }
       }
 
+      //TrackYourOrder
       const getTrackYourOrder=async(url)=>{
         dispatch({type:"SET_Track_LOADING"})
         try {
@@ -331,6 +360,7 @@ const getSubCategory=async(url)=>{
           dispatch({type:"SET_Track_ERROR"})
         }
       }
+      //InstagramPhoto
      const getInstagramPhoto=async(url)=>{
         dispatch({type:"SET_InstaPhoto_LOADING"})
         try {
@@ -358,7 +388,8 @@ const getSubCategory=async(url)=>{
        getFestivePret(APIFESTIVEPRET);
        getReadyToWear(APIReadyToWear);
        getWinterWear(APIWinterWear);
-      }, []);
+       getALLCategories(APIALLCAT);
+      }, [router.query]);
   return <AppContext.Provider value={{...state,getSubCategory,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
 };
 

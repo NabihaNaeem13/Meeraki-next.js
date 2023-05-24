@@ -5,7 +5,8 @@ import { SocialLogin } from 'components/shared/SocialLogin/SocialLogin';
 import { useFormik } from 'formik';
 import router from 'next/router';
 import { useState } from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues={
   email:"",
@@ -17,6 +18,7 @@ export const Login = () => {
  const [error, setError] = useState();
   const [success,setSuccess]=useState(null);
   const {setAuthuser}=useAuthContext();
+  
   const onSubmit = async (values) => {
     try{
       const response = await axios.post("https://meeraki.com/api/v2/auth/login", values);
@@ -24,7 +26,20 @@ export const Login = () => {
       console.log("token",response.data.access_token)
       if (response.data.result === true) {
           setSuccess(response.data.message);
-          localStorage.setItem('token',response.data.access_token,)
+          toast.success(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+          localStorage.setItem('token',response.data.access_token)
+          console.log("userdata",response.data.user.name)
+          localStorage.setItem('User',response.data.user.id)
+          localStorage.setItem('user_name',response.data.user.name)
           setAuthuser(response.data.user);
           setError(null);
           router.push('/');
@@ -32,6 +47,16 @@ export const Login = () => {
       }else{
         setError(response.data.message);
         setSuccess(null);
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       }
     }catch (err) {
       console.log(err);
@@ -52,6 +77,16 @@ export const Login = () => {
       {/* <!-- BEGIN LOGIN --> */}
       <div className='login'>
         <div className='wrapper'>
+        <ToastContainer position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"/>
           <div
             className='login-form js-img'
             style={{ backgroundImage: `url('/assets/img/login-form__bg.png')` }}
@@ -100,11 +135,6 @@ export const Login = () => {
               <button className='btn' type='submit'  disabled={!formik.isValid}>
                 log in
               </button>
-              <div className="separator mb-3 mt-3">
-              <button className='btn' onClick={() => router.push('/GuestLoginPage')}>
-              Login as a Guest
-              </button>
-                      </div>
               <div className='login-form__bottom'>
                 <span>
                   No account?{' '}

@@ -8,6 +8,10 @@ const breadcrumbsData = [
     path: '/',
   },
   {
+    label: 'All Category',
+    path: '/categories',
+  },
+  {
     label: 'Formal Edit',
     path: '/Category_formalEdit',
   },

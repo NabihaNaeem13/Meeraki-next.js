@@ -15,7 +15,7 @@ export const Nav = ({navItem}) => {
     {navItem.map((nav)=>{
       const {name,path}=nav;
       return(
-        <li key={name+path}>
+        <li key={nav.id + nav.name}>
           <Link href={path}>
             <a className={path === router.pathname ? 'active' : ''}>
               {name}

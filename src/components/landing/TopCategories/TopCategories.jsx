@@ -6,7 +6,7 @@ import categoriesData from 'data/category/category';
 export const TopCategories = () => {
   const {HomeImage4,isHomeImage4Loading}=useProductContext();
   const categories = [...HomeImage4].slice(0, 3);
-  console.log("HomeImage4",HomeImage4);
+  console.log(HomeImage4);
   if(isHomeImage4Loading){
     return(
       <div>....Loading</div>
@@ -20,10 +20,10 @@ export const TopCategories = () => {
           title='Shop by Category'
         />
         <div className='top-categories__items'>
-          {<Categories1 categories={categories} />}
+        {<Categories1 categories={categories} />}
         </div>
       </section>
-      {/* <!-- TOP CATEGORIES EOF   --> */}
+      {/* <!-- TOP CATEGORIES EOF   -->*/}
     </>
   );
 };

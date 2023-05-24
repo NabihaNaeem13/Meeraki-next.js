@@ -21,13 +21,13 @@ const SingalProduct = (data) => {
   return (
     <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Singal Product'>
     <Singal_Product data={data}/>
-    <MostViewed additionalClass='product-viewed' />
+    <MostViewed additionalClass='product-viewed' data={data} />
    </PublicLayout>
   )
 }
 
 export async function getStaticPaths() {
-    const data=await (await fetch(`https://meeraki.com/api/v2/products/new-arrival`)).json();
+    const data=await (await fetch(`https://meeraki.com/api/v2/products/ready-to-wear`)).json();
     const allnewArrival=data.data.map((product)=>product.id);
     
     return {
@@ -48,3 +48,18 @@ export async function getStaticPaths() {
   }
 
 export default SingalProduct
+
+
+
+// <MostViewed additionalClass='product-viewed' />
+
+
+
+
+
+
+
+
+
+
+

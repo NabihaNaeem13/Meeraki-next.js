@@ -6,6 +6,7 @@ import router from 'next/router';
 import {BsArrowLeft} from "react-icons/bs";
 
 export const AddToCart = () => {
+    
   return (
     <section className='pt-5 mb-4'>
     <div className='container'>

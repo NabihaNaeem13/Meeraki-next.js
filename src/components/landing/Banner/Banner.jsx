@@ -40,12 +40,11 @@ export const Banner = () => {
             {Banners.map((curElem)=>{
           const {photo,url,id}=curElem;
           return(
-            <SwiperSlide>
+            <SwiperSlide  key={id+photo}>
             <img
               src={`https://meeraki.com/public/${photo}`}
               alt={url}
               style={{ width: "100%" }}
-              key={id+photo}
             /> 
             </SwiperSlide>
           ) 

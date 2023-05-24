@@ -6,21 +6,60 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useProductContext } from '../../../Context/productContext';
 import Link from "next/link";
+import Dropdown from 'react-dropdown';
+import { useState } from 'react';
+import Slider from 'rc-slider';
+import router from 'next/router';
+
+// React Range
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range);
+const options = [
+  { value: 'highToMin', label: 'Price high to low' },
+  { value: 'minToHigh', label: 'Price low to high' },
+  { value: 'Newest', label: 'Newest' },
+  { value: 'oldest', label: 'Oldest' }
+];
 
 const API="https://meeraki.com/api/v2/products/category/";
 export const ProductCategory = () => {
   const {getCategoryProduct,categoryProduct,iscategoryProductLoading}=useProductContext();
+  const [productOrder, setProductOrder] = useState(
+    categoryProduct.sort((a, b) => (a.current_price < b.current_price ? 1 : -1))
+  );
   const router = useRouter();
   const {id}=router.query;
   useEffect(() => {
     getCategoryProduct(`${API}${id}`);
 }, [router.query.id]);
 
+useEffect(() => {
+  setProductOrder(productOrder);
+}, [productOrder]);
+
   if(iscategoryProductLoading){
     return(
       <div>....Loading</div>
     )
   }
+  const handleSort = (value) => {
+    if (value === 'highToMin') {
+      const newOrder =categoryProduct.sort((a, b) => (a.base_price < b.base_price ? 1 : -1));
+      setProductOrder(newOrder);
+    }
+    if (value === 'minToHigh') {
+      const newOrder =categoryProduct.sort((a, b) => (a.base_price > b.base_price ? 1 : -1));
+      setProductOrder(newOrder);
+    }
+    if(value==='Newest'){
+      const newOrder=categoryProduct.sort((a,b) => new Date(a.reviewDate) - new Date(b.reviewDate));
+      setProductOrder(newOrder);
+    }
+    if(value==='oldest'){
+      const newOrder=categoryProduct.sort((a,b) =>new Date(b.reviewDate) - new Date(a.reviewDate));
+      setProductOrder(newOrder);
+    }
+  };
 
   return (
     <section className='mb-4 pt-3 bg-light'>
@@ -43,7 +82,7 @@ export const ProductCategory = () => {
                             <div className='col-lg-1 col-md-1'>
                             </div>
                             <div className="col-lg-4 col-md-3 align-self-end ">
-                            <button className="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><FiFilter id="filtericon"/></button>
+                            <button className="filterbtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><FiFilter/></button>
 
 <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div className="offcanvas-header">
@@ -58,10 +97,10 @@ Filters</h5>
     <div className='p-3'>
       <ul className='list-unstyled'>
       <li className='mb-2'>
-        <a className='text-reset fs-14 fw-600' href='#as'>
+        <button className='text-reset fs-14 fw-600' style={{border:"none",background:"transparent"}} onClick={() => router.push('/categories')}>
         <FiChevronLeft className='fs-15 mx-1'/>
         All categories
-        </a>
+        </button>
       </li>
       <li className='mb-2'>
         <a className='text-reset fs-14 fw-600' href='#as'>
@@ -81,28 +120,53 @@ Filters</h5>
     <h2 className='fs-15 fw-600 p-3 border-bottom'>
     Price range
     </h2>
-
+    <div className='range-slider'>
+                  <Range
+                    min={2500}
+                    max={10000}
+                    defaultValue={[2500, 10000]}
+                    tipFormatter={(value) => `${value}`}
+                    allowCross={false}
+                    tipProps={{
+                      placement: 'bottom',
+                      prefixCls: 'rc-slider-tooltip',
+                    }}
+                  />
+                </div>
     </div>
     <div className='bg-white shadow-sm rounded mb-3'>
     <h2 className='fs-15 fw-600 p-3 border-bottom'>
     Filter by size
     </h2>
-    <div className="col d-flex justify-content-left px-3">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value=""
-                              id="small"
-                            />
-                            <label
-                              className="form-check-label text-dark"
-                              for="small"
-                            >
-                              small
-                            </label>
-                          </div>
-                          </div>
+    <label className='checkbox-box'>
+                    <input
+                      type='checkbox'
+                    />
+                    <span className='checkmark'></span>
+                    Small
+                  </label>
+                  <label className='checkbox-box'>
+                    <input
+                      type='checkbox'
+                    />
+                    <span className='checkmark'></span>
+                   Medium
+                  </label>
+                  <label className='checkbox-box'>
+                    <input
+                      type='checkbox'
+                    />
+                    <span className='checkmark'></span>
+                 Large
+                  </label>
+                  <label className='checkbox-box'>
+                    <input
+
+                      type='checkbox'
+                    />
+                    <span className='checkmark'></span>
+                   XL-Large
+                  </label>
     </div>
   </div>
   </div>
@@ -110,17 +174,14 @@ Filters</h5>
   <div className="col-lg-3 col-md-2 offset-md-4 px-md-5">
   <form className='form-group ml-auto mr-0 w-200px d-none d-xl-block justify-content-center'>
                             <label className="mb-0 opacity-50">Sort By</label>
-                            <div className="dropdown">
-  <button className="btn categoryBtn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Newest <BiChevronDown id="BiChevronDown"/>
-  </button>
-  <ul className="dropdown-menu" style={{width:"90%"}} aria-labelledby="dropdownMenuButton1">
-    <li><a className="dropdown-item categoery-dropdown" href="#as">Newest</a></li>
-    <li><a className="dropdown-item categoery-dropdown" href="#as">Oldest</a></li>
-    <li><a className="dropdown-item categoery-dropdown" href="#as">Price low to high</a></li>
-    <li><a className="dropdown-item categoery-dropdown" href="#as">Price high to low</a></li>
-  </ul>
-</div>
+                            <div className='shop-main__select'>
+                  <Dropdown
+                    options={options}
+                    className='react-dropdown'
+                    onChange={(option) => handleSort(option.value)}
+                    value={options[0]}
+                  />
+                </div>
                 </form>
   </div>
                             </div>

@@ -9,19 +9,11 @@ import { SingleProduct } from './SingleProduct/SingleProduct';
 import { useWishlistContext } from 'Context/wishlistContext';
 
 export const ProductsCarousel = ({ products }) => {
-  console.log(products)
-  const { cart, setCart } = useContext(CartContext);
-  const {wishList,setWishList}=useWishlistContext();
-  const handleAddToCart = (id) => {
-    const newProduct = products?.find((pd) => pd.id === id);
-    setCart([...cart, { ...newProduct, quantity: 1 }]);
-  };
- 
- const handleAddToWish=(id)=>{
-  const newProduct = products?.find((pd) => pd.id === id);
-  setWishList([...wishList, { ...newProduct}]);
- }
-
+  const { mycart } = useContext(CartContext);
+  const {myWishlist}=useWishlistContext();
+  const ad=Object.keys(mycart);
+  const pid=parseInt(ad)
+  
   const settings = {
     dots: false,
     infinite: false,
@@ -60,16 +52,14 @@ export const ProductsCarousel = ({ products }) => {
   return (
     <>
       <Slider {...settings}>
-        {products.map((product) => (
+        {products?products.map((product) => (
           <SingleProduct
-            addedInCart={Boolean(cart?.find((pd) => pd.id === product.id))}
-            key={product.id}
+            addedInCart={Boolean(pid===product.id)}
+            key={product.id+product.name}
             product={product}
-            addInWishList={Boolean(wishList?.find((pd)=> pd.id === product.id))}
-            onAddToWish={handleAddToWish}
-            onAddToCart={handleAddToCart}
+            addInWishList={Boolean(myWishlist.product_id=== product.id)}
           />
-        ))}
+        )):""}
       </Slider>
     </>
   );

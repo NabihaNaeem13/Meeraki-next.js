@@ -4,12 +4,15 @@ import { SocialLogin } from 'components/shared/SocialLogin/SocialLogin';
 import { useFormik } from 'formik';
 import router from 'next/router';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues={
   name:"",
   email:"",
   password:"",
-  confirm_pass:""
+  confirm_pass:"",
+  phone:""
   }
 
 export const Registration = () => {
@@ -24,16 +27,31 @@ const onSubmit = async (values,action) =>{
    //const result = await response.json();
    //console.log(result)
    console.log("response", response.data.message);
-   if (response.data.result === "Success") {
-     setSuccess(response.data.message);
+   if (response.data.result === true) {
+     toast.success(response.data.message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
      localStorage.setItem("token", response.data.access_token);  
-     setError(null);
      router.push('/');
      formik.action.resetForm();
    }else {
-     //alert('we  have errror')
-     setError(response.data.message)
-     setSuccess(null);
+     toast.error(response.data.message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
    }
   }catch (err) {
    console.log(err);
@@ -52,6 +70,16 @@ const onSubmit = async (values,action) =>{
       {/* <!-- BEGIN REGISTRATION --> */}
       <div className='login registration'>
         <div className='wrapper'>
+        <ToastContainer position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"/>
           <div
             className='login-form js-img'
             style={{
@@ -62,7 +90,6 @@ const onSubmit = async (values,action) =>{
               <h3>register now</h3>
               {!success && <p className="text-center mb-2" style={{color:"red",fontSize:"1rem"}}>{error ? error : ""}</p>}
               {!error && <p className="text-center mb-2" style={{color:"green",fontSize:"1rem"}}>{success ? success : ""}</p>} 
-              
               <SocialLogin />
               <div className='box-field__row'>
                 <div className='box-field'>
@@ -133,6 +160,24 @@ const onSubmit = async (values,action) =>{
                     ) : null}
                 </div>
               </div>
+              <div className='box-field__row'>
+                <span>Phone</span>
+                <div className='box-field'>
+                  <input
+                    type='tel'
+                    className='form-control'
+                    placeholder='Enter your password'
+                    name="phone"
+                    autoComplete='off' 
+                    value={formik.values.phone}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  />
+                   {formik.errors.phone && formik.touched.phone ? (
+                    <p className="form-error">{formik.errors.phone}</p>
+                    ) : null}
+                </div>
+              </div>
               <label className='checkbox-box checkbox-box__sm'>
                 <input type='checkbox' />
                 <span className='checkmark'></span>
@@ -140,9 +185,6 @@ const onSubmit = async (values,action) =>{
               </label>
               <button className='btn' type='submit' disabled={!formik.isValid}>
                 registration
-              </button>
-              <button className='btn mt-3' onClick={() => router.push('/GuestLoginPage')}>
-              Login as a Guest
               </button>
               <div className='login-form__bottom'>
                 <span>

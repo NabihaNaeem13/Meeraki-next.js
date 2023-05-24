@@ -10,7 +10,7 @@ export const currencies = [
       id:2,
       name: "United Kingdom",
       symbol: "£",
-      conversionRate:  2,
+      conversionRate: 0.00903,
       icon:"/assets/img/UK.webp"
     }
   ]

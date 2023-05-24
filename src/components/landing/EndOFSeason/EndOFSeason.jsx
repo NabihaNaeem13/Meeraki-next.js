@@ -4,9 +4,7 @@ import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
 
 
 export const EndOFSeason = (endofseason) => {
-  console.log('line of 7 endofseason',endofseason);
   const {endSeasonProduct}=useProductContext();
-  console.log(endSeasonProduct);
 
   return (
     <>
