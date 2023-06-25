@@ -9,6 +9,7 @@ import LoadingBar from 'react-top-loading-bar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { CardListProvider } from 'Context/CardListContext';
 
 
 export const CartContext = createContext();
@@ -17,6 +18,7 @@ const MyApp = ({ Component, pageProps}) => {
   const [subtotal,setsubtotal]=useState(0);
   const [progress, setProgress] = useState(0);
   const [user,setUser]=useState({value:null});
+  const [user_id,setUser_id]=useState(0);
   const [key,setKey]=useState(0);
  const router=useRouter();
 
@@ -122,8 +124,10 @@ const MyApp = ({ Component, pageProps}) => {
        localStorage.clear()
     }
     const token=localStorage.getItem('token')
+    const userId=localStorage.getItem('User');
     if(token){
       setUser({value:token})
+      setUser_id(userId);
       setKey(Math.random())
     }
    },[router.query])
@@ -176,11 +180,13 @@ theme="light"/>
     <AuthProvider>
     <CurrenciesProvider>
     <AppProvider>
+    <CardListProvider>
     <WishProvider>
-    <CartContext.Provider value={{Logout,buyNow,ADDTOCART,addtocart,removeFromCart,mycart,clearcart,subtotal,user,key}}>
+    <CartContext.Provider value={{Logout,buyNow,user_id,ADDTOCART,addtocart,removeFromCart,mycart,clearcart,subtotal,user,key}}>
       <Component {...pageProps} />
     </CartContext.Provider>
     </WishProvider>
+    </CardListProvider>
     </AppProvider>
     </CurrenciesProvider>
     </AuthProvider>

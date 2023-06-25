@@ -10,7 +10,7 @@ export const navItem = [
   },
   {
     id:2,
-    name: 'New Arrivals',
+    name: 'Unstitched',
     path: '/category_newarrival',
   },
   {

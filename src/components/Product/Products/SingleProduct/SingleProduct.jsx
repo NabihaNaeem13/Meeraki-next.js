@@ -9,6 +9,7 @@ import { CartContext } from 'pages/_app';
 import { useContext } from 'react';
 import { useWishlistContext } from 'Context/wishlistContext';
 import { useAuthContext } from 'Context/AuthContext';
+import { useCardlistContext } from 'Context/CardListContext';
 
 const style = {
   position: 'absolute',
@@ -26,12 +27,15 @@ export const SingleProduct = ({
   addedInCart,
   addInWishList
 }) => {
-  const { name, thumbnail_image,base_price,id,category_name,current_price,product_sku,current_stock,variant} = product;
+  const { name,thumbnail_image,hover_image,base_price,id,category_name,current_price,product_sku,current_stock,variant} = product;
   const  {currency}=useCurrenciesContext();
-  const { addtocart,buyNow,user,ADDTOCART} = useContext(CartContext);
+  const { buyNow,user} = useContext(CartContext);
   const {AddToWishlist}=useWishlistContext();
+  const {AddTOCard,BuyNow}=useCardlistContext();
   const [openSingle, setOpenSingle] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered1, setIsHovered1] = useState(false);
   const handleOpen = () => setOpenSingle(true);
   const handleClose = () => setOpenSingle(false);
   const [productSize,setProductSize]=useState(variant[0].values[0]);
@@ -40,28 +44,39 @@ export const SingleProduct = ({
   const {authuser}=useAuthContext();
  const userId=localStorage.getItem('User');
  const user_token=localStorage.getItem('token');
+
   return (
     <>
       {/* <!-- BEING SINGLE PRODUCT ITEM --> */}
-      <div className='products-item'>
+      <div className='products-item' onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}>
         <div className='products-item__type'>
+        <Link href={`/productDetail/${id}`}>
           {category_name && <span className='products-item__sale'>{category_name}</span>}
+          </Link>
         </div>
         <div className='products-item__img'>
           <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
-          <div className='products-item__hover'>
-            <Link href={`/SingalProduct/${id}`}>
+          {isHovered &&  <div className='products-item__hover'>
+          <img src={`https://meeraki.com/public/${hover_image}`} className='js-img' alt='' />
+           <Link href={`/SingalProduct/${id}`}>
               <a>
-                <i className='icon-search'></i>
+              <i className='icon-search'></i>
               </a>
             </Link>
-            <div className='products-item__hover'>
+      <div className='products-item__hover'>
+              <div style={{display:"flex",gap:"1rem"}}>
               <button disabled={addInWishList}
                 className={`addList ${addInWishList ? 'added' : ''}`} onClick={() => AddToWishlist(id,authuser.id,user.value)}>
                 <i className='icon-heart'></i>
               </button>
+              <button disabled={addInWishList}
+                className={`addList1 ${addInWishList ? 'added' : ''}`} onClick={handleOpen}>
+               <i className='icon-cart'></i>
+              </button>  
+              </div>  
               <div>
-      <Button onClick={handleOpen}><i className='icon-cart'></i></Button>
+      
       <Modal
         open={openSingle}
         onClose={handleClose}
@@ -78,16 +93,19 @@ export const SingleProduct = ({
         <div className='products-item__type'>
           {category_name && <span className='products-item__sale'>{category_name}</span>}
         </div>
-        <div className='products-item__img'>
-          <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />
+        <div className='products-item__img' onMouseEnter={() => setIsHovered1(true)}
+      onMouseLeave={() => setIsHovered1(false)}>
+      <Link href={`/productDetail/${id}`}>
+      {isHovered1?<img src={`https://meeraki.com/public/${hover_image}`} className='js-img' alt='' />:<img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />}
+      </Link>
+         
           </div>
           </div>
                 </div>
                 <div className='col-xl-7 col-lg-7 tutwee'>
                  <div className='text-left'>
-                 <h1 className="mb-2 fs-20 fw-600">
-                 {name}
-                            </h1>
+                 <Link href={`/productDetail/${id}`}><h1 className="mb-2 fs-20 fw-600">
+                 {name}</h1></Link>
                             <p style={{margin: "0", padding: "0"}}> <b>{product_sku}</b> </p>
                             <div className="row align-items-center">
                                 <div className="col-6">
@@ -200,14 +218,14 @@ export const SingleProduct = ({
                               
                                 <div className="mt-0" style={{display: "flex", alignItems: "center"}}>
                                 <div className='product-buttons mt-0'>
-                <button
+                                {current_stock > 0 ? <button
                   disabled={addedInCart}
                   className={`btn-cartProductDetail ${addedInCart ? 'btn-add' : ''}`}
-                  onClick={()=>ADDTOCART(userId,id,productSize,quantity,user_token,name,price,thumbnail_image,product_sku,current_stock,base_price)}
+                  onClick={()=>AddTOCard(userId,id,productSize,quantity,user_token)}
                 >
                   <i className='icon-cart'></i> cart
-                </button>
-                <button disabled={addedInCart} className={`btn btn-icon ${addedInCart ? 'btn-add' : ''}`} onClick={()=>buyNow(id,name,productSize,current_price,quantity,thumbnail_image,product_sku,current_stock,base_price,base_price)}>
+                </button>:""}
+                <button disabled={addedInCart} className={`btn btn-icon ${addedInCart ? 'btn-add' : ''}`} onClick={()=>BuyNow(userId,id,productSize,quantity,user_token)}>
         <AiOutlineShoppingCart className='mx-1' style={{fontSize:"16px",fontWeight:"400"}}/> Buy Now
         </button>
               </div>
@@ -223,10 +241,10 @@ export const SingleProduct = ({
       </Modal>
     </div>
             </div>
-          </div>
+          </div>}
         </div>
         <div className='products-item__info'>
-          <Link href={`/SingalProduct/${id}`}>
+          <Link href={`/productDetail/${id}`}>
             <a>
               <span className='products-item__name'>{name}</span>
             </a>

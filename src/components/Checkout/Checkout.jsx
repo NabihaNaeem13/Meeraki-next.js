@@ -4,6 +4,7 @@ import { CheckoutStep1 } from './CheckoutSteps/CheckoutStep1';
 import { CheckoutStep2 } from './CheckoutSteps/CheckoutStep2';
 import { CheckoutStep3 } from './CheckoutSteps/CheckoutStep3';
 import { CheckoutStep0 } from './CheckoutSteps/CheckoutStep0';
+import OrderConfirm from 'pages/OrderConfirm';
 
 const detailBlocks = [
   {
@@ -78,28 +79,6 @@ export const Checkout = () => {
                     <div className='wrapper mt-5'>
                     <div className='checkout-content'>
                     <CheckoutStep1 onNext={handleNext} onPrev={handlePrev} />
-                    <div className='checkout-info'>
-                     <CheckoutOrders />
-                    </div>
-                    </div>
-                    </div>
-                  );
-                case 3:
-                  return (
-                    <div className='wrapper mt-5'>
-                    <div className='checkout-content'>
-                    <CheckoutStep3/>
-                    <div className='checkout-info'>
-                     <CheckoutOrders />
-                    </div>
-                    </div>
-                    </div>
-                  );
-                  case 4:
-                  return (
-                    <div className='wrapper mt-5'>
-                    <div className='checkout-content'>
-                    <CheckoutStep3/>
                     <div className='checkout-info'>
                      <CheckoutOrders />
                     </div>

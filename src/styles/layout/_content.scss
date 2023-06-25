@@ -394,10 +394,30 @@ h6,
     // width: calc(25% - 30px);
     position: relative;
     display: block;
-
+    
     & button.addList {
       border: none;
-      background: none;
+      background: WHITE;
+      margin-bottom: 2rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+
+      &.added i {
+        background: #9a9291 !important;
+      }
+    }
+
+    & button.addList1 {
+      border: none;
+      background: rgb(0, 0, 0);
+      margin-bottom: 2rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      color:#fff;
 
       &.added i {
         background: #9a9291 !important;
@@ -424,7 +444,7 @@ h6,
       height: 100%;
       background: #222222;
       background-color: rgba($color: #222222, $alpha: 0.15);
-      padding: 30px;
+      padding: 0px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -442,13 +462,13 @@ h6,
 
       &-options {
         display: flex;
-
         i {
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          margin: 0 10px ;
+          margin: 0 10px;
           display: flex;
+          gap:1rem;
           align-items: center;
           justify-content: center;
           background: #ffffff;
@@ -739,7 +759,17 @@ h6,
     img {
       width: 100%;
       height: 100%;
-      object-fit:fill;
+      object-fit:cover;
+    }
+    &-hover-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
     &-hover {
@@ -796,6 +826,9 @@ h6,
 
     &:hover {
       .top-categories__item-hover {
+        opacity: 1;
+      }
+      .top-categories__item-hover-image{
         opacity: 1;
       }
     }
@@ -7781,4 +7814,12 @@ opacity: 0;
 }
 .summary_checkitem-primary {
   background-color: #1b1b28;
+}
+
+//**/
+.ml-auto{
+  margin-left: auto !important;
+  }
+.fs-17 {
+  font-size: 1.0625rem !important;
 }

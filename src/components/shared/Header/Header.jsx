@@ -7,11 +7,13 @@ import { CartContext } from 'pages/_app';
 import { FaSearch, FaTruck } from "react-icons/fa";
 import MidNav from './MidNav';
 import { useWishlistContext } from 'Context/wishlistContext';
+import { useCardlistContext } from 'Context/CardListContext';
 
 
 export const Header = ({ onCurrencyChange, currency }) => {
   const { mycart} = useContext(CartContext);
   const {Wishlist}=useWishlistContext();
+  const {Card_list}=useCardlistContext();
   const [promo, setPromo] = useState(true);
   const [fixedNav, setFixedNav] = useState(false);
   // For Fixed nav
@@ -122,7 +124,7 @@ export const Header = ({ onCurrencyChange, currency }) => {
                     <br/>
                     <i>Cart</i>
                     </i>
-                    <span>{Object.keys(mycart).length ?? '0'}</span>
+                    <span>{Card_list.length ?? '0'}</span>
                   </a>
                 </Link>
               </li>

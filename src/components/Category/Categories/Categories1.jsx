@@ -4,8 +4,8 @@ export const Categories1 = ({ categories }) => {
   return (
     <>
       {/* <!-- BEGIN  CATEGORIES --> */}
-      {categories.map((category) => (
-        <Card1 key={category.image_title} category={category} />
+      {categories.map((category,index) => (
+        <Card1 index={index} category={category} />
       ))}
       {/* <!--  CATEGORIES EOF   --> */}
     </>

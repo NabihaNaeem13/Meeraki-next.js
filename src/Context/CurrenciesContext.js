@@ -6,6 +6,7 @@ const CurrenciesContext = createContext();
 
 const CurrenciesProvider = ({ children }) => {
     const [currency, setCurrency] = useState(currencies[0]);
+    
     return <CurrenciesContext.Provider value={{currency, setCurrency}}>{children}</CurrenciesContext.Provider>;
 }
 

@@ -21,9 +21,7 @@ export default function Home() {
       <Banner />
       {/* option <Trending />*/}
       <NewArrivals/>
-      <EndOFSeason/>
       <TopCategories />
-      <FeatureProducts/>
       <Info />
       <FormalEdit/>
       <LatestNews />
@@ -32,13 +30,4 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps=async()=>{
-  const res=await fetch('https://meeraki.com/api/v2/products/new-arrival');
-  const data=await res.json();
-   return{
-       props:{
-         data
-       }
-   }
-}
 

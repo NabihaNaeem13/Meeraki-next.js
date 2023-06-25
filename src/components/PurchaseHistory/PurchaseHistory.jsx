@@ -20,13 +20,14 @@ export const PurchaseHistory = () => {
   
 
   const [purchase,setPurchase]=useState({});
-  console.log("purchase",purchase.id);
 
-  
+
+  console.log("purchase",purchase);
 
   const PurchaseData=async()=>{
     try{
       const userId=localStorage.getItem('User');
+      console.log("userId",userId);
       const username=localStorage.getItem('user_name');
       const res=await axios.get(`https://meeraki.com/api/v2/purchase-history/${userId}`)
       setPurchase(res.data.data[0]);

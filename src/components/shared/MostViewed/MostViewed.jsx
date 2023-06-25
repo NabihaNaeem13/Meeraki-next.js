@@ -11,13 +11,13 @@ import { useEffect, useState } from 'react';
 
 
 export const MostViewed = ({ additionalClass,data}) => {
-  const id=data.data.data[0].id;
+ console.log(data)
 
   const [relatedProduct,setRelatedProduct]=useState();
-  console.log(relatedProduct)
+  console.log("relatedProduct",relatedProduct);
   const RelatedProduct=async()=>{
     try{
-       const res=await axios.get(`https://meeraki.com/api/v2/products/related/${id}`);
+       const res=await axios.get(`https://meeraki.com/api/v2/products/related/${data}`);
        setRelatedProduct(res.data.data)
     }catch(err){
       console.log(err)

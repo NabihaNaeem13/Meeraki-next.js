@@ -7,6 +7,7 @@ import router from 'next/router';
 import { useContext } from 'react';
 import { CartContext } from 'pages/_app';
 import { useAuthContext } from 'Context/AuthContext';
+import { SupportModel } from './SupportModel';
 
 export const SupportTicket = () => {
   const {Logout}=useContext(CartContext);
@@ -54,10 +55,7 @@ Support Ticket</a>
             <div className='row'>
               <div className='col-md-4 mx-auto mb-3'>
               <div className="p-3 rounded mb-3 c-pointer text-center bg-white shadow-sm hov-shadow-lg has-transition" data-toggle="modal" data-target="#ticket_modal">
-                    <label htmlFor='upload' className='support-circle'>  
-                    <HiOutlinePlus className="text-white supportplus m-2 p-1"/>
-                    </label>
-                    <input type="file" id="upload" style={{display:"none"}} />
+                    <SupportModel/>
                 <div className="fs-20 text-primary">Create a Ticket</div>
             </div>
               </div>

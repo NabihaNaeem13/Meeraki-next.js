@@ -19,6 +19,7 @@ const WishProvider = ({ children }) => {
     const [myWishlist,setMyWishlist]=useState({});
     const {authuser}=useAuthContext();
     const API=`https://meeraki.com/api/v2/wishlists/${authuser.id}`;
+    const APICard="https://meeraki.com/api/v2/carts/list";
 
     const saveWishlist=(apcart)=>{
       localStorage.setItem("wishlist",JSON.stringify(apcart));
@@ -115,6 +116,8 @@ const WishProvider = ({ children }) => {
           console.log(err);
         }
     }
+
+   
     useEffect(()=>{
       getToWishlist(API);
       try{

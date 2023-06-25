@@ -5,9 +5,9 @@ import Link from 'next/dist/client/link';
 import { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import { BsArrowLeft } from 'react-icons/bs';
-import router from 'next/router';
-import { useContext } from 'react';
-import { CartContext } from 'pages/_app';
+import {router,useRouter} from 'next/router';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const countries = [
   { label: 'Country 1', value: '1' },
@@ -32,32 +32,65 @@ const initialValues={
 export const CheckoutStep1 = ({ onNext }) => {
   const [country,setCountry]=useState('');
   const [city,setCity]=useState('');
-  const {user}=useContext(CartContext)
-  const token=user.value
+  const [payment_type,setPaymentType]=useState("jazzcash");
+  const router = useRouter()
 
   const onSubmit=async(values)=>{
     const {name,email,phone,password,address,country,city,postal_code}=values;
      try{
+      const token=localStorage.getItem('token')
        const User=localStorage.getItem('User')
        const user_id=parseInt(User); 
+       const owner_id=localStorage.getItem('owner_id');
+       const paymentUser=await axios.post('https://meeraki.com/api/v2/order/store',{user_id,owner_id,payment_type},{
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
+          }
+       });
+       console.log("paymentUser",paymentUser.data);
        const shippingUser=await axios.post('https://meeraki.com/api/v2/user/shipping/create',{user_id,address,country,city,postal_code,phone},{
         headers:{
-            'Authorization':`Bearer${token}`
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+token
           }
         });
       const registerUser=await axios.post('https://meeraki.com/api/v2/auth/signup',{name,email,phone,password});
     
-      console.log("shippingUser",shippingUser);
+      console.log("shippingUser",shippingUser.data.message);
       if(registerUser.data.result===true){
         localStorage.setItem("User",registerUser.data.user_id)
       }
+      if(paymentUser.data.result===true){
+        toast.success(paymentUser.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+        localStorage.setItem('order_id',paymentUser.data.order_id)
+        router.push('/OrderConfirm')
+        
+      }else{
+        toast.error(paymentUser.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+      }
+
      }catch(err){
       console.log(err);
-     }
-
-   
-
-
+     } 
   }
   
   const formik = useFormik({
@@ -185,7 +218,7 @@ export const CheckoutStep1 = ({ onNext }) => {
             <h4>Select a payment option</h4>
             <div className='align-items-center py-2 mb-2 smalls jazzCashgrid d-flex'>
                     <div className="payment-option-box">
-                    <input value="jazzcash" className="online_payment" type="radio" name="payment_option"/>
+                    <input value="jazzcash" className="online_payment" type="radio" name="payment_option" onChange={(e)=>setPaymentType(e.target.value)} defaultChecked/>
                     <div className="d-block p-3 payment-option-title">
                          <img src="/assets/img/jazzchash.png" className="img-fluid mb-2" alt=""/>
                          <span className="d-block text-center">
@@ -194,7 +227,7 @@ export const CheckoutStep1 = ({ onNext }) => {
                     </div>
                     </div>
                     <div className="payment-option-box">
-                    <input value="Bank_Transfar" className="online_payment" type="radio" name="payment_option"/>
+                    <input value="Bank_Transfar" className="online_payment" type="radio" name="payment_option" onChange={(e)=>setPaymentType(e.target.value)}/>
                     <div className="d-block p-3 payment-option-title">
                     <img src="/assets/img/banktransfar.png" className="img-fluid mb-2" alt=""/>
                                                         <span className="d-block text-center">
@@ -203,7 +236,7 @@ export const CheckoutStep1 = ({ onNext }) => {
             </div>
            </div>        
            <div className="payment-option-box">
-                    <input value="barclaycard" className="online_payment" type="radio" name="payment_option"/>
+                    <input value="barclaycard" className="online_payment" type="radio" name="payment_option" onChange={(e)=>setPaymentType(e.target.value)}/>
                     <div className="d-block p-3 payment-option-title">
                     <img src="/assets/img/cards.png" className="img-fluid mb-2" id="ma-img" alt=""/>
                                                         <span className="d-block text-center">
@@ -212,7 +245,7 @@ export const CheckoutStep1 = ({ onNext }) => {
             </div>
            </div> 
            <div className="payment-option-box">
-                    <input value="cash_on_delivery" className="online_payment" type="radio" name="payment_option"/>
+                    <input value="cash_on_delivery" className="online_payment" type="radio" name="payment_option" onChange={(e)=>setPaymentType(e.target.value)}/>
                     <div className="d-block p-3 payment-option-title">
                     <img src="/assets/img/cod.png" className="img-fluid mb-2" alt=""/>
                                                             <span className="d-block text-center">
