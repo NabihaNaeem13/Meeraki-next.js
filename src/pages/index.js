@@ -12,7 +12,7 @@ import { Layout } from 'layout/Layout';
 import { EndOFSeason } from 'components/landing/EndOFSeason/EndOFSeason';
 import { FeatureProducts } from 'components/landing/FeaturedProducts/FeaturedProducts';
 import { FormalEdit } from 'components/landing/FormalEdit/FormalEdit';
-import {LastImage} from 'components/landing/LastImage2/LastImage';
+import {FiftyPerSale} from 'components/landing/FiftyPerSale/FiftyPerSale';
 
 
 export default function Home() {
@@ -21,11 +21,12 @@ export default function Home() {
       <Banner />
       {/* option <Trending />*/}
       <NewArrivals/>
+      <FormalEdit/>
       <TopCategories />
       <Info />
-      <FormalEdit/>
+      <EndOFSeason/>
+      <FiftyPerSale/>
       <LatestNews />
-      <LastImage/>
     </Layout>
   );
 }

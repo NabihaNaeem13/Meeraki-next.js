@@ -17,7 +17,7 @@ const breadcrumbsData = [
 ];
 const category_newarrival = (newarrival) => {
   return (
-    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='New Arrivals' description="
+    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Unstiched' description="
     The Collection of a unique fusion of contemporary class and timeless fashion. Bringing you a range of subtly ornate designs paired with plethora of colors stand out contrasting against exclusively luxe fabrics.">
       <Category newarrival={newarrival.newarrival.data}/>
     </PublicLayout>
@@ -26,7 +26,7 @@ const category_newarrival = (newarrival) => {
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`https://meeraki.com/api/v2/products/new-arrival`)
+  const res = await fetch(`https://meeraki.com/api/v2/subcat/unstichedpod`)
   const newarrival = await res.json()
 
   // Pass data to the page via props

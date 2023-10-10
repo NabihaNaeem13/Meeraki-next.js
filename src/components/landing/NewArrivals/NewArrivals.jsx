@@ -11,7 +11,7 @@ const NewArrivals = (data) => {
       {/* <!-- BEGIN NEW ARRIVALS --> */}
       <section className='arrivals'>
         <SectionTitle
-          title='New Arrivals'
+          title='New Arrival Products'
         />
 
         <div className='products-items'>

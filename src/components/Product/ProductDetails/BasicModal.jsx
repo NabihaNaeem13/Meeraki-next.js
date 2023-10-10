@@ -23,7 +23,7 @@ export const BasicModal=()=>{
 
   return (
     <div>
-      <button  className="btn btn-primary buy-now fw-600 mb-4" onClick={handleOpen}>View Chart</button>
+      <button  className="btn btn-primary buy-now fw-600 mb-4 mx-auto" onClick={handleOpen}>View Chart</button>
       <Modal
         open={open}
         onClose={handleClose}

@@ -10,7 +10,7 @@ export const navItem = [
   },
   {
     id:2,
-    name: 'Unstitched',
+    name: 'NEW ARRIVALS',
     path: '/category_newarrival',
   },
   {
@@ -37,5 +37,15 @@ export const navItem = [
     id:7,
     name: 'Ready to Wear',
     path: '/category_ready_to_wear',
+  },
+  {
+    id:8,
+    name: 'UNSTITCHED',
+    path: '/category_ready_to_wear',
+  },
+  {
+    id:9,
+    name: 'SHOP',
+    path: '/shop',
   },
 ];

@@ -20,8 +20,8 @@ const options = [
 ];
 
 export const Sales = () => {
-  const {endSeasonProduct}=useProductContext();
-  const allProducts = [...endSeasonProduct];
+  const {Sales}=useProductContext();
+  const allProducts = [...Sales];
   const [productOrder, setProductOrder] = useState(
     allProducts.sort((a, b) => (a.current_price < b.current_price ? 1 : -1))
   );

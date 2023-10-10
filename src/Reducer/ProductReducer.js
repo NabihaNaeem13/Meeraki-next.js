@@ -17,6 +17,23 @@ const ProductReducer=(state,action)=>{
                     isLoading:true,
                     isError:true
                 };
+                case "SETSales_LOADING":
+                  return{
+                      ...state,
+                      isSalesLoading:true
+                  };
+                  case "SET_APISales_DATA":
+                    return{
+                      ...state,
+                      isSalesLoading:false,
+                      Sales:action.payload,
+                    }
+                  case "APISales_ERROR":
+                      return{
+                          ...state,
+                          isSalesLoading:true,
+                          isError:true
+                      };
                 case "SET_CURRENCY_LOADING":
             return{
                 ...state,

@@ -6,7 +6,7 @@ export const Card = ({ category }) => {
   const { category_name, thumbnail_image,name,id,hover_image} = category;
   console.log("category",category);
   return (
-    <Link href={`/SingalProduct/${id}`}>
+    <Link href={`/productDetail/${id}`}>
       <a className='top-categories__item' onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <img src={`https://meeraki.com/public/${thumbnail_image}`} className='js-img' alt='' />

@@ -20,7 +20,7 @@ const breadcrumbsData = [
 ];
 const category_clearance = () => {
   return (
-    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Clearance' description="The Collection of a unique fusion of contemporary class and timeless fashion. Bringing you a range of subtly ornate designs paired with plethora of colors stand out contrasting against exclusively luxe fabrics." >
+    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Sales' description="The Collection of a unique fusion of contemporary class and timeless fashion. Bringing you a range of subtly ornate designs paired with plethora of colors stand out contrasting against exclusively luxe fabrics." >
     <Sales/>
   </PublicLayout>
   )

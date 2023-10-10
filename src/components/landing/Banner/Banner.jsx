@@ -44,7 +44,7 @@ export const Banner = () => {
             <img
               src={`https://meeraki.com/public/${photo}`}
               alt={url}
-              style={{ width: "100%" }}
+              style={{ width: "100%",height: "100vh" }}
             /> 
             </SwiperSlide>
           ) 

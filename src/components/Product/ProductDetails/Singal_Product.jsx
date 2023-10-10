@@ -77,7 +77,9 @@ export const Singal_Product = (data) => {
          <h1 className="mb-2 fs-20 fw-600">
          {productDetail.name}
                     </h1>
+                    
                     <p style={{margin: "0", padding: "0"}}> <b>{productDetail.product_sku}</b> </p>
+
                     <div className="row align-items-center">
                         <div className="col-6">
                         </div>

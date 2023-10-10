@@ -44,7 +44,7 @@ h1 {
 
 h2 {
   @include font($font-size-h2, $line-height-h2, $title-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Tenor Sans';
   text-transform:inherit;
   font-weight: 500;
 }
@@ -528,7 +528,7 @@ h6,
 
     &__info {
       text-align: center;
-      margin-top: 36px;
+      margin-top: 16px;
     }
 
     &__name {
@@ -3654,7 +3654,7 @@ blockquote,
 }
 
 .checkout {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 50px;
 
   .promo-video__decor {
@@ -4774,7 +4774,7 @@ input[type='search']::-webkit-search-results-decoration {
   justify-content: flex-start;
   width: 100%;
   height: 100%;
-  padding-top: 110px;
+  padding-top: 190px;
   padding-bottom: 10px;
 
   .wrapper {
@@ -4836,7 +4836,7 @@ input[type='search']::-webkit-search-results-decoration {
 
 @media screen and (max-width: 1400px) {
   .products-item__img {
-    height: 435px;
+    height: 360px;
   }
 
   .top-categories__item {

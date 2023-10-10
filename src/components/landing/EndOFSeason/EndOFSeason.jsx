@@ -3,7 +3,7 @@ import { ProductsCarousel } from 'components/Product/Products/ProductsCarousel';
 import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
 
 
-export const EndOFSeason = (endofseason) => {
+export const EndOFSeason = () => {
   const {endSeasonProduct}=useProductContext();
 
   return (
@@ -11,7 +11,7 @@ export const EndOFSeason = (endofseason) => {
       {/* <!-- BEGIN NEW ARRIVALS --> */}
       <section className='arrivals'>
         <SectionTitle
-          title='End Of Season'
+          title='Unstitched'
         />
 
         <div className='products-items'>
@@ -23,12 +23,3 @@ export const EndOFSeason = (endofseason) => {
   );
 };
 
-export const getServerSideProps=async()=>{
-  const res=await fetch('https://meeraki.com/api/v2/products/end-of-season');
-  const endofseason=await res.json();
-   return{
-       props:{
-        endofseason
-       }
-   }
-}

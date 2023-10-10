@@ -14,6 +14,8 @@ const initialState={
     isnewArrivalLoading:false,
     formalEdit:[],
     isFormalEditLoading:false,
+    Sales:[],
+    isSalesLoading:false,
     featureProduct:[],
     isFeatureLoading:false,
     isSingleLoading:false,
@@ -59,11 +61,11 @@ const initialState={
     isAllCategoriesLoading:false
   }
 
-  const Insta_KEY="IGQVJWc01SaTZAOTzJ5WGhwV0RXVktmc0VqcTlER3g2eEN1MnI4NHpjdU9zWmJvU2gzTFR5NGpzYkJDanhCVDltNVFPU0Exc1Npb2pWSk5rWS14Tkg1NUhsd3lGaHR3UFN5eWV2R3c1cjBzLUdHSmp3QgZDZD";
-const API = "https://meeraki.com/api/v2/products/end-of-season";
-const API1="https://meeraki.com/api/v2/products/new-arrival";
-const API2="https://meeraki.com/api/v2/products/formal-edit";
-const API3="https://meeraki.com/api/v2/products/featured";
+const Insta_KEY="IGQVJVY1VRRWFxNU9JUEVyb2FJOGF5S3hEd3VCMzdLclFXTGd5ZAE5sUWZAtd045QlVnRHJOM0N3Sjh0TXhlSUo1MFlOQ21ua0pFZAEhJTUM5YWVJM0ZA6SlZAzalpQc1FoOU1zV0lpM19RQjRKdXdOWjVTcQZDZD";
+const API = "https://meeraki.com/api/v2/subcat/unstichedpod";
+const API1="https://meeraki.com/api/v2/subcat/newarrivalpod";
+const API2="https://meeraki.com/api/v2/subcat/formaleditpod";
+const API3="https://meeraki.com/api/v2/fifty_percent_off_deal";
 const API4="https://meeraki.com/api/v2/filter/categories";
 const API5="https://meeraki.com/api/v2/sliders";
 const API6="https://meeraki.com/api/v2/currencies";
@@ -72,11 +74,13 @@ const APIImage="https://meeraki.com/api/v2/home-images4";
 const ImageTwoAPI="https://meeraki.com/api/v2/home-images";
 const APIINSTA=`https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username,timestamp&access_token=${Insta_KEY}`
 ;
+const saleapi="https://meeraki.com/api/v2/subcat/salepod";
 const BlogAPI="https://meeraki.com/api/v2/blogs";
-const APIBASICS="https://meeraki.com/api/v2/products/basics";
-const APIFESTIVEPRET="https://meeraki.com/api/v2/products/festive";
-const APIReadyToWear="https://meeraki.com/api/v2/products/ready-to-wear";
-const APIWinterWear="https://meeraki.com/api/v2/products/winter-wear";
+const APIBASICS="https://meeraki.com/api/v2/subcat/basicspod";
+const APIFESTIVEPRET="https://meeraki.com/api/v2/subcat/festivepet";
+const APIReadyToWear="https://meeraki.com/api/v2/readytowear";
+const APIWinterWear="https://meeraki.com/api/v2/subcat/winterwearpod";
+
 const APIALLCAT="https://meeraki.com/api/v2/categories";
 
 const AppProvider = ({ children }) => {
@@ -87,10 +91,21 @@ const AppProvider = ({ children }) => {
       try {
         const res = await axios.get(url);
         const  endSeasonProduct=await res.data.data;
+        console.log('endSeasonProduct',endSeasonProduct);
         dispatch({type:"SET_API_DATA",payload:endSeasonProduct})
         
       } catch (error) {
         dispatch({type:"API_ERROR"})
+      }
+      };
+      const  getSales = async (url) => {
+        dispatch({type:"SETSales_LOADING"})
+      try {
+        const res = await axios.get(url);
+        const  Sales=await res.data.data;
+        dispatch({type:"SET_APISales_DATA",payload:Sales})   
+      } catch (error) {
+        dispatch({type:"APISales_ERROR"})
       }
       };
       const  getBlog = async (url) => {
@@ -202,6 +217,7 @@ const AppProvider = ({ children }) => {
         dispatch({type:"SET_featureProduct_LOADING"})
       try {
         const res = await axios.get(url);
+        console.log('featureProduct',res);
         const featureProduct=await res.data.data;
         dispatch({type:"SET_featureProduct_DATA",payload:featureProduct})
         
@@ -389,6 +405,7 @@ const getSubCategory=async(url)=>{
        getReadyToWear(APIReadyToWear);
        getWinterWear(APIWinterWear);
        getALLCategories(APIALLCAT);
+       getSales(saleapi);
       }, [router.query]);
   return <AppContext.Provider value={{...state,getSubCategory,getRelateProduct,getCategoryProduct,getTopProducts,getWishList,getTrackYourOrder,getBlogDetail}}>{children}</AppContext.Provider>;
 };

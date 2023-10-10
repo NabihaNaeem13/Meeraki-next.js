@@ -15,6 +15,18 @@ export const Cart = ({onNext}) => {
   const {Card_list,RemoveFromCard,subtotal}=useCardlistContext();
   const newprice = (subtotal * currency.conversionRate).toFixed(2);
 
+  const getCardList=async()=>{
+      try{
+        const res=await axios.get('https://meeraki.com/api/v2/carts/list');
+        console.log('cardlist',res);
+      }catch(err){
+        console.log(err);
+      }
+  }
+
+  useEffect(()=>{
+    getCardList()
+  },[])
   return (
     <>
       {/* <!-- BEGIN CART --> */}

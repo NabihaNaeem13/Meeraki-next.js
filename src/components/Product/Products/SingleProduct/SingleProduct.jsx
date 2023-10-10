@@ -25,9 +25,11 @@ const style = {
 export const SingleProduct = ({
   product,
   addedInCart,
-  addInWishList
+  addInWishList,
+  onAddToCart,
+  onBuyNow,
 }) => {
-  const { name,thumbnail_image,hover_image,base_price,id,category_name,current_price,product_sku,current_stock,variant} = product;
+  const { name,thumbnail_image,hover_image,base_price,id,category_name,current_price,product_sku,current_stock,variant,variant_prices} = product;
   const  {currency}=useCurrenciesContext();
   const { buyNow,user} = useContext(CartContext);
   const {AddToWishlist}=useWishlistContext();
@@ -38,12 +40,30 @@ export const SingleProduct = ({
   const [isHovered1, setIsHovered1] = useState(false);
   const handleOpen = () => setOpenSingle(true);
   const handleClose = () => setOpenSingle(false);
-  const [productSize,setProductSize]=useState(variant[0].values[0]);
+  const [productSize,setProductSize]=useState(variant_prices[0].prices[0].price);
   const newprice=current_price*quantity;
   const price = (newprice * currency.conversionRate).toFixed(2);
   const {authuser}=useAuthContext();
  const userId=localStorage.getItem('User');
  const user_token=localStorage.getItem('token');
+
+ const updatePrice=()=>{
+  if(productSize==="Small" || productSize==="Unstitched"){
+    return variant_prices[0].prices[0].price*quantity
+  }
+  else if(productSize==="Medium"){
+    return variant_prices[0].prices[1].price*quantity
+  }
+  else if(productSize==="Large"){
+    return variant_prices[0].prices[2].price*quantity
+  }
+  else if(productSize==="X-Large"){
+    return variant_prices[0].prices[3].price*quantity
+  }
+  else{
+     return current_price*quantity
+  }
+}
 
   return (
     <>
@@ -138,41 +158,31 @@ export const SingleProduct = ({
                                 </div>       
                             </div>
                             <div id="option-choice-form">
-                            {Object.keys(variant).map((item)=>{
-                          return(
-                            <div className='product-info__color' key={variant[item].title}>
+                            <div className='product-info__color'>
                              <span>Size:</span>
                              <div className='col-sm-12'>
                             <div className='d-md-flex align-items-center py-md-2 mb-md-2 smalls'>
-                           {variant[item].values[0] && <div className='radio-input-container'>
-                    <input type="radio" name="ratio" className="input-radio" value={variant[item].values[0]} onChange={(e)=>setProductSize(e.target.value)} defaultChecked/>
-                    <div className='ratio-title'>
-                      <label htmlFor="walk-radio">{variant[item].values[0]}</label>
-                    </div></div> }
-                    {variant[item].values[1] && <div className='radio-input-container'>
-                    <input type="radio" name="ratio" className="input-radio" value={variant[item].values[1]} onChange={(e)=>setProductSize(e.target.value)}/>
-                    <div className='ratio-title'>
-                      <label htmlFor="walk-radio">{variant[item].values[1]}</label>
-                    </div></div> }
-                    {variant[item].values[2] &&   <div className='radio-input-container'>
-                    <input type="radio" name="ratio" className="input-radio" value={variant[item].values[2]} onChange={(e)=>setProductSize(e.target.value)}/>
-                    <div className='ratio-title'>
-                      <label htmlFor="walk-radio">{variant[item].values[2]}</label>
-                    </div></div> }
-                    {variant[item].values[3] &&   <div className='radio-input-container'>
-                    <input type="radio" name="ratio" className="input-radio" value={variant[item].values[3]} onChange={(e)=>setProductSize(e.target.value)}/>
-                    <div className='ratio-title'>
-                      <label htmlFor="walk-radio">{variant[item].values[3]}</label>
-                    </div></div> }
-                  {variant[item].values[4] && <div className='radio-input-container'>
-                    <input type="radio" name="ratio" className="input-radio" value={variant[item].values[4]} onChange={(e)=>setProductSize(e.target.value)}/>
-                    <div className='ratio-title'>
-                      <label htmlFor="walk-radio">{variant[item].values[4]}</label>
-                    </div></div> }
+                            {variant_prices?<>{Object.keys(variant_prices).map((item)=>{
+                                return(
+                                  <div className='align-items-center mt-2 py-md-2 mb-md-2 smalls d-flex'>
+                                  {variant_prices[item].prices.map((curemlem)=>{
+                                       return(
+                                        <div className='radio-input-container'>
+                        <input type="radio" name="ratio" className="input-radio" value={curemlem.variant} onChange={(e)=>setProductSize(e.target.value)} onClick={(e)=>setProductSize(e.target.value)} defaultChecked/>
+                        <div className='ratio-title'>
+                          {curemlem.variant==="Small"?<label htmlFor="walk-radio">S</label>:""}
+                          {curemlem.variant==="Large"?<label htmlFor="walk-radio">L</label>:""}
+                          {curemlem.variant==="X-Large"?<label htmlFor="walk-radio">XL</label>:""}
+                          {curemlem.variant==="Unstitched"?<label htmlFor="walk-radio">Uns</label>:""}
+                          {curemlem.variant==="Medium"?<label htmlFor="walk-radio">M</label>:""}  
+                        </div></div>
+                                       )
+                                    })}
+                                  </div>
+                                )
+                            })}</>:""}
                              </div></div>
                             </div>
-                          )
-                         })}
                          </div>
                                 <div className="row no-gutters">
                                     <div className="col-sm-2">
@@ -211,21 +221,21 @@ export const SingleProduct = ({
                                     </div>
                                     <div className="col-sm-9">
                                         <div className="product-price mt-0">
-                                            <strong id="chosen_price" className="h4 fw-600 text-primary">{currency.symbol}{price}</strong>  
+                                            <strong id="chosen_price" className="h4 fw-600 text-primary">{currency.symbol}{updatePrice()}</strong>  
                                         </div>
                                     </div>
                                 </div>
                               
                                 <div className="mt-0" style={{display: "flex", alignItems: "center"}}>
                                 <div className='product-buttons mt-0'>
-                                {current_stock > 0 ? <button
+                    <button
                   disabled={addedInCart}
                   className={`btn-cartProductDetail ${addedInCart ? 'btn-add' : ''}`}
-                  onClick={()=>AddTOCard(userId,id,productSize,quantity,user_token)}
+                  onClick={()=>onAddToCart(id,productSize,quantity,updatePrice(),name,product_sku,thumbnail_image)}
                 >
                   <i className='icon-cart'></i> cart
-                </button>:""}
-                <button disabled={addedInCart} className={`btn btn-icon ${addedInCart ? 'btn-add' : ''}`} onClick={()=>BuyNow(userId,id,productSize,quantity,user_token)}>
+                </button>
+                <button disabled={addedInCart} className={`btn btn-icon ${addedInCart ? 'btn-add' : ''}`} onClick={()=>onBuyNow(id,productSize,quantity,updatePrice(),name,product_sku,thumbnail_image)}>
         <AiOutlineShoppingCart className='mx-1' style={{fontSize:"16px",fontWeight:"400"}}/> Buy Now
         </button>
               </div>
@@ -249,9 +259,13 @@ export const SingleProduct = ({
               <span className='products-item__name'>{name}</span>
             </a>
           </Link>
+          <Link href={`/productDetail/${id}`}>
+            <a>
           <span className='products-item__cost'>
            {currency.symbol}{(current_price * currency.conversionRate).toFixed(2)}
           </span>
+          </a>
+          </Link>
         </div>
       </div>
       {/* <!-- SINGLE PRODUCT ITEM EOF <span>{base_price && `${base_price}`}</span>--> */}

@@ -70,31 +70,10 @@ console.log("user",user_id)
         </div>
         <div className='col-xl-6 col-lg-6 tutwee'>
          <div className='text-left'>
-         <h1 className="mb-2 fs-20 fw-600">
-         {name}
+         <h1 className="fs-20 fw-600">
+          {name}
                     </h1>
-                    <p style={{margin: "0", padding: "0"}}> <b>{product_sku}</b> </p>
-                    <div className="row align-items-center">
-                        <div className="col-6">
-                        </div>
-                        <div className="col-6 text-right">
-                           {current_stock > 0 ? <span className="badge badge-md badge-inline badge-pill badge-success">In Stock</span>:<span className="badge badge-md badge-inline badge-pill badge-danger">Out of Stock</span>}
-                          </div>
-                          <div className='mt-2' dangerouslySetInnerHTML={{__html: description}}></div>
-   <div className='contacts-info__social mt-2'>
-        <span>Share here:</span>
-        <ul>
-          {socialLinks.map((social, index) => (
-            <li key={index}>
-              <a href={social.path}>
-                <i className={social.icon ? social.icon : ''}></i>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-                         
-                        <div className="row no-gutters my-2">
+                    <div className="row no-gutters my-2">
                             <div className="col-sm-8">
                                 <div className="">
                                     <strong className="h2 fw-600 text-primary">
@@ -102,9 +81,15 @@ console.log("user",user_id)
                                     </strong>
                                 </div>
                             </div>
-                        </div>       
-                    </div>
-                    <form id="option-choice-form">
+                        </div>   
+                    <p style={{margin: "0", padding: "0"}}> <b>{product_sku}</b> </p>
+                    <div className="row align-items-center">
+                        <div className="col-6">
+                        </div>
+                        <div className="col-6 text-right">
+                           {current_stock > 0 ? <span className="badge badge-md badge-inline badge-pill badge-success">In Stock</span>:<span className="badge badge-md badge-inline badge-pill badge-danger">Out of Stock</span>}
+                          </div>
+                          <form id="option-choice-form">
                        {choice_options?<> {Object.keys(choice_options).map((item)=>{
                           return(
                             <div className='product-info__color' key={choice_options[item].title}>
@@ -183,6 +168,23 @@ console.log("user",user_id)
                             </div>
                         </div>
                         </form>
+                          <div className='mt-2' dangerouslySetInnerHTML={{__html: description}}></div>
+   <div className='contacts-info__social mt-2'>
+        <span>Share here:</span>
+        <ul>
+          {socialLinks.map((social, index) => (
+            <li key={index}>
+              <a href={social.path}>
+                <i className={social.icon ? social.icon : ''}></i>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+                         
+                        
+                    </div>
+           
                         <div className="mt-0" style={{display: "flex", alignItems: "center"}}>
                         <div className='product-buttons mt-0'>
         <button
